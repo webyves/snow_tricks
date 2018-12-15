@@ -1,0 +1,35 @@
+{% extends 'base.twig' %}
+{% form_theme formTrickVideo 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Ajout Video{% endblock %}
+
+{% block body %}
+	<h1>Ajouter une video</h1>
+    {% if app.user %}
+    <h2><em>Figure : </em><strong>{{ trick.name }}</strong></h2>
+    <h3>Actuellement {{ trickVideos | length }} Videos disponible</h3>
+    <section>
+    	{% for trickVideo in trickVideos %}
+    	<article>
+    		{% include 'snow/confirmDeleteTrickVideoModal.twig' %}
+    		<div>{{ trickVideo.link | raw }}</div>
+    		<div>
+    			<a data-toggle="modal" href="#confirmDeleteTrickVideoModal_{{ trickVideo.id }}" class="btn btn-danger">Supprimer cette video</a>
+    		</div>
+    	</article>	
+    	{% endfor %}
+    </section>
+    <h3>Ajouter une video</h3>
+	<section>
+		{{ form_start(formTrickVideo) }}
+		{{ form_row(formTrickVideo.link, {
+                        'attr': {'placeholder': "Liens Embed"},
+                        'label': "Liens vers la video"}) }}
+		<button type="submit" class="btn btn-success">Ajouter la Video</button>
+		{{ form_end(formTrickVideo) }}
+	</section>
+	{% else %}
+		{% include 'snow/messageNeedConnect.twig'%}
+	{% endif %}
+
+{% endblock %}

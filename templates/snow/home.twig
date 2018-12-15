@@ -14,7 +14,6 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ trick.name }}</h5>
                     <h6 class="text-muted">{{ trick.dateCreate | date('d-m-Y : H:i') }}</h6>
-                    <p class="card-text">{{ trick.content | raw }}</p>
                     <div class="card-link btn-group">
                         <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="far fa-eye"></em> Lire plus</a>
                         {% if app.user %}
