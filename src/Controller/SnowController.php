@@ -80,7 +80,14 @@ class SnowController extends AbstractController
 
         $formTrickVideo->handleRequest($request);
         if ($formTrickVideo->isSubmitted() && $formTrickVideo->isValid()) {
-            $trickVideo->setTrick($trick);
+
+            $subject = $trickVideo->getLink();
+            $pattern = array('#width="[0-9]*"#', '#height="[0-9]*"#');
+            $replacement = array('', '');
+            $trickVideoUrl = preg_replace($pattern, $replacement, $subject);
+
+            $trickVideo->setTrick($trick)
+                       ->setLink($trickVideoUrl);
             $manager->persist($trickVideo);
             $manager->flush();
             return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
