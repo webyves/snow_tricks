@@ -9,12 +9,17 @@
     <h2><em>Figure : </em><strong>{{ trick.name }}</strong></h2>
     <h3>Actuellement {{ trickVideos | length }} Videos disponible</h3>
     <section>
+    	{% set n = 0 %}
     	{% for trickVideo in trickVideos %}
+    	{% set n = n + 1 %}
     	<article>
     		{% include 'snow/confirmDeleteTrickVideoModal.twig' %}
-    		<div>{{ trickVideo.link | raw }}</div>
-    		<div>
-    			<a data-toggle="modal" href="#confirmDeleteTrickVideoModal_{{ trickVideo.id }}" class="btn btn-danger">Supprimer cette video</a>
+    		<div class="row">
+    			<div class="col-1 text-center">
+	    			<em><strong>{{ n }}</strong></em><br>
+    				<a data-toggle="modal" href="#confirmDeleteTrickVideoModal_{{ trickVideo.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
+    			</div>
+    			<div class="col">{{ trickVideo.link | raw }}</div>
     		</div>
     	</article>	
     	{% endfor %}
