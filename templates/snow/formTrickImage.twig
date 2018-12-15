@@ -1,10 +1,10 @@
 {% extends 'base.twig' %}
-{% form_theme formTrickVideo 'bootstrap_4_layout.html.twig' %}
+{% form_theme formTrickImage 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Gestion des Videos{% endblock %}
 
 {% block body %}
-	<h1>Gestion des videos</h1>
+	<h1>Gestion des Images</h1>
     {% if app.user %}
 		<div class="row">
 			<div class="col-sm-4">
@@ -12,37 +12,37 @@
 				    <h2><em>Figure : </em><strong>{{ trick.name }}</strong></h2>
 				    <div class="btn-group">
                         <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-secondary"><em class="far fa-eye"></em></a>
-			            <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
+			            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="fab fa-youtube"></em></a>
                         <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
 				    </div>
 				</section>
 				<hr>
 				<section>
 				    <h4>Ajouter une video :</h4>
-					{{ form_start(formTrickVideo) }}
-					{{ form_row(formTrickVideo.link, {
-			                        'attr': {'placeholder': "Liens Embed"},
-			                        'label': "Liens vers la video"}) }}
-					<button type="submit" class="btn btn-success">Ajouter la Video</button>
-					{{ form_end(formTrickVideo) }}
+					{{ form_start(formTrickImage) }}
+					{{ form_row(formTrickImage.link, {
+			                        'attr': {'placeholder': "http://.../xxx.jpg"},
+			                        'label': "Liens vers l'image"}) }}
+					<button type="submit" class="btn btn-success">Ajouter l'image</button>
+					{{ form_end(formTrickImage) }}
 				</section>
 				
 			</div>
 			<div class="col">
 			    <section>
-				    <h4>{{ trickVideos | length }} Videos disponibles</h4>
+				    <h4>{{ trickImages | length }} Images disponibles</h4>
 			    	{% set n = 0 %}
-			    	{% for trickVideo in trickVideos %}
+			    	{% for trickImage in trickImages %}
 			    	{% set n = n + 1 %}
 			    	<article>
 				    	<hr>
-			    		{% include 'snow/confirmDeleteTrickVideoModal.twig' %}
+			    		{% include 'snow/confirmDeleteTrickImageModal.twig' %}
 			    		<div class="row">
 			    			<div class="col-1 text-center">
 				    			<em><strong>{{ n }}</strong></em><br>
-			    				<a data-toggle="modal" href="#confirmDeleteTrickVideoModal_{{ trickVideo.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
+			    				<a data-toggle="modal" href="#confirmDeleteTrickImageModal_{{ trickImage.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
 			    			</div>
-			    			<div class="col">{{ trickVideo.link | raw }}</div>
+			    			<div class="col"><img src="{{ trickImage.link | raw }}" class="img-fluid"></div>
 			    		</div>
 			    	</article>
 			    	{% endfor %}
