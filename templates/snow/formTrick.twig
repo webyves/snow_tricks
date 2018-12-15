@@ -12,32 +12,39 @@
 		{% endif %}
 	</h1>
     {% if app.user %}
-	<section>
-		{{ form_start(formTrick) }}
-		{{ form_row(formTrick.name, {
-                        'attr': {'placeholder': "Nom de la figure"},
-                        'label': "Nom de la figure"}) }}
-		{{ form_row(formTrick.trickGroup, {
-                        'label': "Groupe de figure"}) }}
-		{{ form_row(formTrick.content, {
-                        'attr': {'placeholder': "Votre Texte sur la figure"},
-                        'label': "Description de la figure"}) }}
-		<button type="submit" class="btn btn-success">
-			{% if editMode %}
-				Modifier la figure
-			{% else %}
-				Ajouter la figure
-			{% endif %}
-		</button>
-		{{ form_end(formTrick) }}
-	</section>
+		<section>
+			{{ form_start(formTrick) }}
+			{{ form_row(formTrick.name, {
+	                        'attr': {'placeholder': "Nom de la figure"},
+	                        'label': "Nom de la figure"}) }}
+			{{ form_row(formTrick.trickGroup, {
+	                        'label': "Groupe de figure"}) }}
+			{{ form_row(formTrick.content, {
+	                        'attr': {'placeholder': "Votre Texte sur la figure"},
+	                        'label': "Description de la figure"}) }}
+			<button type="submit" class="btn btn-success">
+				{% if editMode %}
+					Modifier la figure
+				{% else %}
+					Ajouter la figure
+				{% endif %}
+			</button>
+			{{ form_end(formTrick) }}
+		</section>
+		{% if editMode %}
+			<hr>
+			<section>
+				<h3>Actuellement Photos</h3>
+	            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em> Gestion des images</a>
+			</section>
+			<hr>
+			<section>
+				<h3>Actuellement {{ trick.trickVideos | length }} Videos</h3>
+	            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="fab fa-youtube"></em> Gestion des videos</a>				
+			</section>
+		{% endif %}
 	{% else %}
-	<section>
-		<p>Vous Devez etre connecté pour accéder a cette page !!</p>
-		<a href="{{ path('security_login') }}" class="btn btn-info">Je souhaite me connecter</a>
-		<h4>Pas Encore Inscit ?</h4>
-		<a href="{{ path('security_registration') }}" class="btn btn-info">Je souhaite m'inscrire</a>
-	</section>
+		{% include 'snow/messageNeedConnect.twig'%}
 	{% endif %}
 
 {% endblock %}
