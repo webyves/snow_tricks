@@ -1,0 +1,43 @@
+{% extends 'base.twig' %}
+{% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Ajout figure{% endblock %}
+
+{% block body %}
+	<h1>
+		{% if editMode %}
+			Modifier une figure
+		{% else %}
+			Créer une figure
+		{% endif %}
+	</h1>
+    {% if app.user %}
+	<section>
+		{{ form_start(formTrick) }}
+		{{ form_row(formTrick.name, {
+                        'attr': {'placeholder': "Nom de la figure"},
+                        'label': "Nom de la figure"}) }}
+		{{ form_row(formTrick.trickGroup, {
+                        'label': "Groupe de figure"}) }}
+		{{ form_row(formTrick.content, {
+                        'attr': {'placeholder': "Votre Texte sur la figure"},
+                        'label': "Description de la figure"}) }}
+		<button type="submit" class="btn btn-success">
+			{% if editMode %}
+				Modifier la figure
+			{% else %}
+				Ajouter la figure
+			{% endif %}
+		</button>
+		{{ form_end(formTrick) }}
+	</section>
+	{% else %}
+	<section>
+		<p>Vous Devez etre connecté pour accéder a cette page !!</p>
+		<a href="{{ path('security_login') }}" class="btn btn-info">Je souhaite me connecter</a>
+		<h4>Pas Encore Inscit ?</h4>
+		<a href="{{ path('security_registration') }}" class="btn btn-info">Je souhaite m'inscrire</a>
+	</section>
+	{% endif %}
+
+{% endblock %}

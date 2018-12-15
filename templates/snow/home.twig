@@ -1,0 +1,30 @@
+{% extends 'base.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+<h1>Bienvenue</h1>
+<p>Liste des figures</p>
+<div class="tricks row">
+    {% for trick in tricks %}
+        {% include 'snow/confirmDeleteTrickModal.twig' %}
+        <div class="col-3">
+            <div class="card">
+                <img class="card-img-top" src="https://via.placeholder.com/200x200" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ trick.name }}</h5>
+                    <h6 class="text-muted">{{ trick.dateCreate | date('d-m-Y : H:i') }}</h6>
+                    <p class="card-text">{{ trick.content | raw }}</p>
+                    <div class="card-link btn-group">
+                        <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="far fa-eye"></em> Lire plus</a>
+                        {% if app.user %}
+                        <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
+                        <a data-toggle="modal" href="#confirmDeleteModal_{{ trick.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

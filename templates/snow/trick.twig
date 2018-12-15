@@ -1,0 +1,63 @@
+{% extends 'base.twig' %}
+{% form_theme trickCommentForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block body %}
+<h1>Bienvenue</h1>
+<p>Liste des figures</p>
+{% include 'snow/confirmDeleteTrickModal.twig' %}
+<div class="tricks row">
+    <div class="col">
+        <div class="card">
+            <img class="card-img-top" src="https://via.placeholder.com/200x200" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ trick.name }}</h5>
+                <h6 class="text-muted">Groupe : {{ trick.trickGroup.name }}</h6>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="text-muted">Créé le : {{ trick.dateCreate | date('d-m-Y : H:i') }}</h6>
+                        <h6 class="text-muted">Par : {{ trick.userCreate.userName }}</h6>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-muted">Derniere  modif le : {{ trick.dateUpdate | date('d-m-Y : H:i') }}</h6>
+                        <h6 class="text-muted">Par : {{ trick.userUpdate.userName }}</h6>
+                    </div>
+                </div>
+                <p class="card-text">{{ trick.content | raw }}</p>
+                <div class="card-link btn-group">
+                    <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
+                    <a data-toggle="modal" href="#confirmDeleteModal_{{ trick.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h1>{{ trick.trickComments | length}} Commentaires</h1>
+<div class="row">
+    <div class="col">
+        {% for comment in trick.trickComments %}
+        <div class="row">
+            <div class="col">
+                <h6 class="text-muted">Ecrit le : {{ comment.dateCreate | date('d-m-Y : H:i') }}</h6>
+                <h6 class="text-muted">Par : {{ comment.userCreate.userName }}</h6>
+                <p>{{ comment.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% if app.user %}
+<div class="row">
+    <div class="col">
+        {{ form_start(trickCommentForm) }}
+        <h2>Laissez nous votre commentaire.</h2>
+        {{ form_row(trickCommentForm.text, {
+                        'attr': {'placeholder': "Votre Commentaire ..."},
+                        'label': "Laissez ici votre commentaire."}) }}
+        <button type="submit" class="btn btn-success">Envoyer</button>
+        {{ form_end(trickCommentForm) }}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
