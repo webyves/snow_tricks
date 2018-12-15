@@ -141,10 +141,11 @@ class SnowController extends AbstractController
      */
     public function deleteTrickVideo(TrickVideo $trickVideo, ObjectManager $manager)
     {
+        $trick = $trickVideo->getTrick();
         $manager->remove($trickVideo);
         $manager->flush();
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
     }
     
 }
