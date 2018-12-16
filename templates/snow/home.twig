@@ -39,6 +39,15 @@
             </div>
         </div>
     {% endfor %}
-    <hr>
 </div>
+{% if nbPages > 1 %}
+<div class="ajax_tricks_list">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-block btn-secondary btn_action_ajax_tricks_list" data-pagenb="{{ pageNb }}">Plus de figure</button>
+        </div>
+    </div>
+</div>
+{% endif %}
+<hr>
 {% endblock %}

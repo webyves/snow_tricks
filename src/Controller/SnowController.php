@@ -27,7 +27,7 @@ use App\Repository\TricksRepository;
 
 class SnowController extends AbstractController
 {
-    const NUMBER_OF_TRICKS_PER_PAGE = 8;
+    const NUMBER_OF_TRICKS_PER_PAGE = 4;
     const NUMBER_OF_IMAGES_PER_PAGE = 10;
     const NUMBER_OF_VIDEOS_PER_PAGE = 10;
 
@@ -36,30 +36,33 @@ class SnowController extends AbstractController
      */
     public function home(TricksRepository $trickRepo)
     {
-        $tricks = $trickRepo->findAll();
+        $nbTricks = $trickRepo->count([]);
+        $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
+        $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, 0);
 
         return $this->render('snow/home.twig', [
-                "tricks" => $tricks
+                "tricks" => $tricks,
+                "pageNb" => 1,
+                "nbPages" => $nbPages
             ]);
     }
 
     /**
-     * @Route("/page/{nb}", name="home_paginated", requirements={"nb"="\d+"})
+     * @Route("/ajax_page/{pageNb}", name="ajax_tricks_list", requirements={"pageNb"="\d+"})
      */
-    public function tricksPages($nb, TricksRepository $trickRepo)
+    public function tricksPages($pageNb, TricksRepository $trickRepo)
     {
         $nbTricks = $trickRepo->count([]);
         $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
-        $offset = ($nb * self::NUMBER_OF_TRICKS_PER_PAGE) - self::NUMBER_OF_TRICKS_PER_PAGE;
-        $limit = $offset + self::NUMBER_OF_TRICKS_PER_PAGE;
-        $tricks = $trickRepo->findBy([], null, $limit, $offset);
+        $offset = ($pageNb * self::NUMBER_OF_TRICKS_PER_PAGE);
+        $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, $offset);
+        $nbPages -= $pageNb;
+        $pageNb++;
 
-        return $this->render('snow/home_paginated.twig', [
+        return $this->render('snow/ajaxTricksList.twig', [
                 "tricks" => $tricks,
-                "nbTricks" => $nbTricks,
-                "nbPages" => $nbPages,
-                "offset" => $offset,
-                "limit" => $limit
+                "pageNb" => $pageNb,
+                "nbPages" => $nbPages
             ]);
     }
     
