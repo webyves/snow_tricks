@@ -35,7 +35,6 @@ services:
     App\EventListener\TrickImageUploadListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postRemove }
 
     # add more service definitions when explicit configuration is needed

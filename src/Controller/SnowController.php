@@ -23,8 +23,6 @@ use App\Form\TrickCommentType;
 use App\Form\TrickVideoType;
 use App\Form\TrickImageType;
 
-use App\Service\TrickImageFileUploader;
-
 use App\Repository\TricksRepository;
 
 class SnowController extends AbstractController
@@ -142,7 +140,7 @@ class SnowController extends AbstractController
     /**
      * @Route("/edit_image/{id}", name="edit_image_trick")
      */
-    public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager, TrickImageFileUploader $fileUploader)
+    public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager)
     {
         $trickImages = $trick->getTrickImages();
 

@@ -25,13 +25,6 @@ class TrickImageUploadListener
         $this->uploadFile($entity);
     }
 
-    public function preUpdate(PreUpdateEventArgs $args)
-    {
-        $entity = $args->getEntity();
-
-        $this->uploadFile($entity);
-    }
-
     public function postRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
