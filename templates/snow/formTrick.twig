@@ -34,8 +34,8 @@
 		{% if editMode %}
 			<hr>
 			<section>
-				<h3>Actuellement Photos</h3>
-	            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em> Gestion des images</a>
+				<h3>Actuellement {{ trick.trickImages | length }} Photos</h3>
+	            <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em> Gestion des images</a>
 			</section>
 			<hr>
 			<section>

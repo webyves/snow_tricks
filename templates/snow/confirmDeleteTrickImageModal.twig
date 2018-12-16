@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" role="dialog" id="confirmDeleteTrickVideoModal_{{ trickVideo.id }}">
+<div class="modal" tabindex="-1" role="dialog" id="confirmDeleteTrickImageModal_{{ trickImage.id }}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,11 +8,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Confirmer la suppression de cette Video <em><strong>({{ loop.index }})</strong></em> ??</p>
+        <p>Confirmer la suppression de cette Image <em><strong>({{ loop.index }})</strong></em> ??</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <a href="{{ path('delete_trick_video', {'id': trickVideo.id}) }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em> Supprimer !</a>
+        <a href="{{ path('delete_trick_image', {'id': trickImage.id}) }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em> Supprimer !</a>
       </div>
     </div>
   </div>

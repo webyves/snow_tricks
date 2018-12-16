@@ -12,7 +12,7 @@
 				    <h2><em>Figure : </em><strong>{{ trick.name }}</strong></h2>
 				    <div class="btn-group">
                         <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-secondary"><em class="far fa-eye"></em></a>
-			            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
+			            <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
                         <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
 				    </div>
 				</section>
@@ -31,15 +31,13 @@
 			<div class="col">
 			    <section>
 				    <h4>{{ trickVideos | length }} Videos disponibles</h4>
-			    	{% set n = 0 %}
 			    	{% for trickVideo in trickVideos %}
-			    	{% set n = n + 1 %}
 			    	<article>
 				    	<hr>
 			    		{% include 'snow/confirmDeleteTrickVideoModal.twig' %}
 			    		<div class="row">
 			    			<div class="col-1 text-center">
-				    			<em><strong>{{ n }}</strong></em><br>
+				    			<em><strong>{{ loop.index }}</strong></em><br>
 			    				<a data-toggle="modal" href="#confirmDeleteTrickVideoModal_{{ trickVideo.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
 			    			</div>
 			    			<div class="col">{{ trickVideo.link | raw }}</div>

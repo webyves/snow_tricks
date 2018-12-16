@@ -4,19 +4,26 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+use Doctrine\Common\Persistence\ObjectManager;
+
 use App\Entity\Users;
 use App\Entity\Tricks;
 use App\Entity\TrickGroup;
 use App\Entity\TrickComment;
 use App\Entity\TrickVideo;
+use App\Entity\TrickImage;
+
 use App\Form\TrickType;
 use App\Form\TrickCommentType;
 use App\Form\TrickVideoType;
+use App\Form\TrickImageType;
+
 use App\Repository\TricksRepository;
-use App\Repository\TrickVideoRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class SnowController extends AbstractController
 {
@@ -32,6 +39,35 @@ class SnowController extends AbstractController
             ]);
     }
     
+    /**
+     * @Route("/tricks/{id}", name="show_trick")
+     */
+    public function showTrick(Tricks $trick, Request $request, ObjectManager $manager)
+    {
+        $trickComment = new TrickComment();
+
+        $form = $this->createForm(TrickCommentType::class, $trickComment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+
+            $trickComment->setDateCreate(new \DateTime())
+                         ->setTrick($trick)
+                         ->setUserCreate($user);
+
+            $manager->persist($trickComment);
+            $manager->flush();
+
+            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+        }
+        return $this->render('snow/trick.twig', [
+                "trick" => $trick,
+                "trickCommentForm" => $form->createView()
+            ]);
+    }
+
     /**
      * @Route("/add", name="add_trick")
      * @Route("/edit/{id}", name="edit_trick")
@@ -71,9 +107,9 @@ class SnowController extends AbstractController
     /**
      * @Route("/edit_video/{id}", name="edit_video_trick")
      */
-    public function formTrickVideo(Tricks $trick, Request $request, ObjectManager $manager, TrickVideoRepository $trickVideoRepo)
+    public function formTrickVideo(Tricks $trick, Request $request, ObjectManager $manager)
     {
-        $trickVideos = $trickVideoRepo->findBy(['trick' => $trick]);
+        $trickVideos = $trick->getTrickVideos();
 
         $trickVideo = new TrickVideo();
         $formTrickVideo = $this->createForm(TrickVideoType::class, $trickVideo);
@@ -102,32 +138,30 @@ class SnowController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/{id}", name="show_trick")
+     * @Route("/edit_image/{id}", name="edit_image_trick")
      */
-    public function showTrick(Tricks $trick, Request $request, ObjectManager $manager)
+    public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager)
     {
-        $trickComment = new TrickComment();
+        $trickImages = $trick->getTrickImages();
 
-        $form = $this->createForm(TrickCommentType::class, $trickComment);
+        $trickImage = new TrickImage();
+        $formTrickImage = $this->createForm(TrickImageType::class, $trickImage);
 
-        $form->handleRequest($request);
+        $formTrickImage->handleRequest($request);
+        if ($formTrickImage->isSubmitted() && $formTrickImage->isValid()) {
+            $trickImage->setTrick($trick);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-
-            $trickComment->setDateCreate(new \DateTime())
-                         ->setTrick($trick)
-                         ->setUserCreate($user);
-
-            $manager->persist($trickComment);
+            $manager->persist($trickImage);
             $manager->flush();
-
-            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
         }
-        return $this->render('snow/trick.twig', [
-                "trick" => $trick,
-                "trickCommentForm" => $form->createView()
-            ]);
+                    
+
+        return $this->render('snow/formTrickImage.twig', [
+            'trick' => $trick,
+            'trickImages' => $trickImages,
+            'formTrickImage' => $formTrickImage->createView()
+        ]);
     }
 
     /**
@@ -153,6 +187,20 @@ class SnowController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
+    }
+    
+    /**
+     * @Route("/delete_image/{id}", name="delete_trick_image")
+     * @IsGranted("ROLE_USER")
+     */
+    public function deleteTrickImage(TrickImage $trickImage, ObjectManager $manager)
+    {
+        $trick = $trickImage->getTrick();
+        $manager->remove($trickImage);
+        $manager->flush();
+
+        return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
+        // return;
     }
     
 }
