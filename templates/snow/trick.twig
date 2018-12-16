@@ -7,13 +7,55 @@
 {% include 'snow/confirmDeleteTrickModal.twig' %}
 <div class="row">
     <div class="col">
-        <img class="img-fluid" src="https://via.placeholder.com/200x200" alt="Card image cap">
-        <h3 class=""><em>Nom : </em>{{ trick.name }}</h3>
-        <h4 class=""><em>Groupe : </em>{{ trick.trickGroup.name }}</h4>
+        <div class="row">
+            <div class="col text-center">
+                {% if trick.trickImages[0] is defined %}
+                <img class="img-fluid" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
+                {% else %}
+                <img class="img-fluid" src="https://place-hold.it/1280x720/666" alt="Snow Trick Image par default">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h3><strong>{{ trick.name }}</strong></h3>
+                <h5 class=""><em>[ {{ trick.trickGroup.name }} ]</em></h5>
+            </div>
+        </div>
+        <hr>
         <h4 class=""><em>Description : </em></h4>
         <p class="">{{ trick.content | raw }}</p>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h6 class="text-muted">Créé le : {{ trick.dateCreate | date('d-m-Y : H:i') }}</h6>
+                <h6 class="text-muted">Par : {{ trick.userCreate.userName }}</h6>
+            </div>
+            {% if trick.dateCreate != trick.dateUpdate %}
+            <div class="col">
+                <h6 class="text-muted">Derniere  modif le : {{ trick.dateUpdate | date('d-m-Y : H:i') }}</h6>
+                <h6 class="text-muted">Par : {{ trick.userUpdate.userName }}</h6>
+            </div>
+            {% endif %}
+            {% if app.user %}
+            <div class="col">
+                <div class="btn-group">
+                    <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
+                    <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="fab fa-youtube"></em></a>
+                    <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
+                    <a data-toggle="modal" href="#confirmDeleteModal_{{ trick.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <hr>
         <h2>{{ trick.trickImages | length}} Photos & {{ trick.trickVideos | length}} Videos</h2>
         <div class="row">
+            {% for trickImage in trick.trickImages %}
+            <div class="col-2">
+                <img src="{{ asset('uploads/trick_images/' ~ trickImage.link) }}" class="img-fluid">
+            </div>
+            {% endfor %}
             {% for trickVideo in trick.trickVideos %}
             <div class="col-4">
                 {{ trickVideo.link | raw }}
@@ -23,28 +65,6 @@
     </div>
 </div>
 <hr>
-<div class="row">
-    <div class="col">
-        <h6 class="text-muted">Créé le : {{ trick.dateCreate | date('d-m-Y : H:i') }}</h6>
-        <h6 class="text-muted">Par : {{ trick.userCreate.userName }}</h6>
-    </div>
-    {% if trick.dateCreate != trick.dateUpdate %}
-    <div class="col">
-        <h6 class="text-muted">Derniere  modif le : {{ trick.dateUpdate | date('d-m-Y : H:i') }}</h6>
-        <h6 class="text-muted">Par : {{ trick.userUpdate.userName }}</h6>
-    </div>
-    {% endif %}
-    {% if app.user %}
-    <div class="col">
-        <div class="btn-group">
-            <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
-            <a href="{{ path('edit_video_trick', {'id': trick.id}) }}" class="btn btn-primary"><em class="fab fa-youtube"></em></a>
-            <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
-            <a data-toggle="modal" href="#confirmDeleteModal_{{ trick.id }}" class="btn btn-danger"><em class="fas fa-trash-alt"></em></a>
-        </div>
-    </div>
-    {% endif %}
-</div>
 <hr>
 <h2>{{ trick.trickComments | length}} Commentaires</h2>
 <div class="row">
