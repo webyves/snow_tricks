@@ -12,7 +12,7 @@
                 {% if trick.trickImages[0] is defined %}
                 <img class="img-fluid" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
                 {% else %}
-                <img class="img-fluid" src="https://place-hold.it/1280x720/666" alt="Snow Trick Image par default">
+                <img class="img-fluid" src="/img/default.jpg" alt="Snow Trick Image par default">
                 {% endif %}
             </div>
         </div>
