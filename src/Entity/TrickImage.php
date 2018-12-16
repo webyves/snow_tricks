@@ -34,12 +34,16 @@ class TrickImage
         return $this->id;
     }
 
-    public function getLink(): ?string
+    // change to accept file Object instead of only string
+    // public function getLink(): ?string
+    public function getLink()
     {
         return $this->link;
     }
 
-    public function setLink(string $link): self
+    // change to accept file Object instead of only string
+    // public function setLink(string $link): self
+    public function setLink($link)
     {
         $this->link = $link;
 
