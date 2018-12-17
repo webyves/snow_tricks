@@ -18,28 +18,38 @@
 <div class="tricks row">
     {% for trick in tricks %}
         {% include 'snow/confirmDeleteTrickModal.twig' %}
-        <div class="col-3">
+        <div class="col-lg-3 col-sm-6 col">
             <div class="card">
-                {% if trick.trickImages[0] is defined %}
-                <img class="card-img-top" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
-                {% else %}
-                <img class="card-img-top" src="/img/default.jpg" alt="Snow Trick Image par default">
-                {% endif %}
+                <div class="homeImgCard">
+                    {% if trick.trickImages[0] is defined %}
+                    <img class="card-img-top" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
+                    {% else %}
+                    <img class="card-img-top" src="/img/default.jpg" alt="Snow Trick Image par default">
+                    {% endif %}
+                    <div class="homeInfosBadges">
+                        <span class="badge badge-pill badge-secondary"><em class="far fa-comments"></em> {{ trick.trickComments | length }}</span>
+                        <span class="badge badge-pill badge-info"><em class="far fa-image"></em> {{ trick.trickImages | length }}</span>
+                        <span class="badge badge-pill badge-primary"><em class="fab fa-youtube"></em> {{ trick.trickVideos | length }}</span>
+                    </div>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ trick.name }}</h5>
-                    <h6 class="text-muted">Ajoutée : {{ trick.dateCreate | date('d-m-Y') }}</h6>
-                    <div class="card-link btn-group">
-                        <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-sm btn-primary"><em class="far fa-eye"></em> Voir la fiche</a>
-                        {% if app.user %}
+                    <small class="text-muted homeInfosTxtMuted">Ajoutée : {{ trick.dateCreate | date('d-m-Y') }}</small>
+                    {% if app.user %}
+                    <div class="btn-group">
                         <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-sm btn-warning"><em class="fas fa-pencil-alt"></em></a>
                         <a data-toggle="modal" href="#confirmDeleteModal_{{ trick.id }}" class="btn btn-sm btn-danger"><em class="fas fa-trash-alt"></em></a>
-                        {% endif %}
                     </div>
+                    {% endif %}
+                </div>
+                <div class="btn-group">
+                    <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-sm btn-primary btn-block"><em class="far fa-eye"></em> Voir la fiche</a>
                 </div>
             </div>
         </div>
     {% endfor %}
 </div>
+<hr>
 {% if nbPages > 1 %}
 <div class="ajax_tricks_list">
     <div class="row">
