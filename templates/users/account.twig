@@ -6,19 +6,26 @@
 <h1>Mon Compte</h1>
 <form  method="post" enctype="multipart/form-data" name="user_account">
         <div class="form-group">
-                <input type="text" name="firstName" class="form-control" value="{{ firstName }}">
+                <label for="firstName">Votre Prénom : </label>
+                <input type="text" name="firstName" class="form-control" value="{{ firstName }}" id="firstName">
         </div>
         <div class="form-group">
-                <input type="text" name="lastName" class="form-control" value="{{ lastName }}">
+                <label for="lastName">Votre nom de famille : </label>
+                <input type="text" name="lastName" class="form-control" value="{{ lastName }}" id="lastName">
         </div>
-        <div class="form-group">
-                <input type="file" name="avatarFile" class="form-control-file">
+        <div class="row">
+                {% if avatar %}
+                <div class="col-sm-6">
+                        <img class="imgAvatar imgAvatarFull rounded-circle img-fluid" src="/uploads/avatar/{{ avatar }}">                        
+                </div>
+                {% endif %}
+                <div class="col-sm-6">
+                        <div class="form-group">
+                                <label for="avatarFile">Envoyé votre fichier<br><small class="text-muted"><em>(max 100 ko et 150x150 px) : </em></small></label>
+                                <input type="file" name="avatarFile" class="form-control-file" id="avatarFile">
+                        </div>
+                </div>
         </div>
-        {% if avatar %}
-        <div>
-                <img class="rounded-circle" src="/uploads/avatar/{{ avatar }}">
-        </div>
-        {% endif %}
         <button type="submit" class="btn btn-success">
         	Je Modifie mes infos
         </button>
