@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -27,16 +29,47 @@ use App\Repository\TricksRepository;
 
 class SnowController extends AbstractController
 {
+    const NUMBER_OF_TRICKS_PER_PAGE = 4;
+    const NUMBER_OF_IMAGES_PER_PAGE = 10;
+    const NUMBER_OF_VIDEOS_PER_PAGE = 10;
+
     /**
      * @Route("/", name="home")
      */
     public function home(TricksRepository $trickRepo)
     {
-        $tricks = $trickRepo->findAll();
+        $nbTricks = $trickRepo->count([]);
+        $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
+        $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, 0);
 
         return $this->render('snow/home.twig', [
-                "tricks" => $tricks
+                "tricks" => $tricks,
+                "pageNb" => 1,
+                "nbPages" => $nbPages
             ]);
+    }
+
+    /**
+     * @Route("/ajax_page/{pageNb}", name="ajax_tricks_list", requirements={"pageNb"="\d+"})
+     */
+    public function tricksPages($pageNb, TricksRepository $trickRepo, Request $req)
+    {
+        $nbTricks = $trickRepo->count([]);
+        $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
+        $offset = ($pageNb * self::NUMBER_OF_TRICKS_PER_PAGE);
+        $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, $offset);
+        $nbPages -= $pageNb;
+        $pageNb++;
+        // if ($req->isXMLHttpRequest() ) {
+        //     return new JsonResponse(array('tricks' => json_encode($tricks), 'pageNb' => $pageNb, 'nbPages' => $nbPages));
+        // }
+        // return new Response("erreur ceci n'est pas une requete Ajax", 400);
+        return $this->render('snow/ajaxTricksList.twig', [
+                "tricks" => $tricks,
+                "pageNb" => $pageNb,
+                "nbPages" => $nbPages
+            ]);
+
     }
     
     /**

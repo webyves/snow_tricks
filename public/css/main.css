@@ -4,3 +4,14 @@
 	left: 33%;
 	color: white;
 }
+.homeImgCard {
+	position: relative;
+}
+.homeInfosBadges {	
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
+}
+.homeInfosTxtMuted {
+	line-height: 0.3em;
+}

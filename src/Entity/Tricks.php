@@ -63,7 +63,7 @@ class Tricks
     private $trickComments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TrickVideo", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Entity\TrickVideo", mappedBy="trick", orphanRemoval=true)
      */
     private $trickVideos;
 
