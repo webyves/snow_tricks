@@ -16,7 +16,7 @@
 	line-height: 0.3em;
 }
 
-/* AVATAR */
+/* AVATAR STYLE */
 .imgAvatar {
 	border-style: solid;
 	border-width: 2px;
@@ -43,4 +43,15 @@
 .imgAvatarMenu:hover {
 	opacity: 1;
 	border-color: rgba(0,0,0,.7);
+}
+
+/* COMMENT STYLE */
+.trickComment {
+	background-color: rgba(153, 204, 255,.6);
+	margin: 10px 0px;
+}
+.trickCommentGauche {
+}
+.trickCommentDroite {
+	background-color: rgba(0, 0, 0,.1)
 }
