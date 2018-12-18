@@ -3,6 +3,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FileUploader
 {
@@ -34,6 +35,20 @@ class FileUploader
         }
 
         return $fileName;
+    }
+
+    public function removeFile($fileName, $directory){
+        switch ($directory) {
+            case 'trickImages':
+                $completeFileName = $this->getTrickImagesDirectory() . '/' . $fileName;
+                break;
+            
+            case 'userAvatar':
+                $completeFileName = $this->getUserAvatarDirectory() . '/' . $fileName;
+                break;
+        }
+        $filesystem = new Filesystem();
+        $filesystem->remove($completeFileName);
     }
 
     public function getTrickImagesDirectory()

@@ -51,7 +51,6 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Image(maxSize="100k", maxSizeMessage="Fichier trop lourd 100k Maxi !")
      */
     private $avatar;
 
@@ -158,14 +157,14 @@ class Users implements UserInterface
         return $this;
     }
 
-    // public function getAvatar(): ?string
-    public function getAvatar()
+    public function getAvatar(): ?string
+    // public function getAvatar()
     {
         return $this->avatar;
     }
 
-    // public function setAvatar(string $avatar): self
-    public function setAvatar($avatar)
+    public function setAvatar(string $avatar): self
+    // public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
 

@@ -7,7 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Form\UserAccountType;
+// use App\Form\UserAccountType;
+use App\Service\FileUploader;
 
 class UsersController extends AbstractController
 {
@@ -15,21 +16,34 @@ class UsersController extends AbstractController
      * @Route("/account", name="account")
      * @IsGranted("ROLE_USER")
      */
-    public function account(Request $request, ObjectManager $manager)
+    public function account(Request $request, ObjectManager $manager, FileUploader $uploader)
     {
     	$user = $this->getUser();
-        $accountForm = $this->createForm(UserAccountType::class, $user);
+    	$firstName = $user->getFirstName();
+    	$lastName = $user->getLastName();
+    	$avatar = $user->getAvatar();
 
-		$accountForm->handleRequest($request);
-        if ($accountForm->isSubmitted() && $accountForm->isValid()) {
-dump($user);
+    	if($request->request->count() > 0) {
+    		if ($avatar) {
+				$uploader->removeFile($avatar, "userAvatar"); 
+    		}
+        	$firstName = $request->request->get("firstName");
+        	$lastName = $request->request->get("lastName");
+        	$file = $request->files->get("avatarFile");
+        	$filename = $uploader->upload($file, "userAvatar");
+        	$user->setAvatar($filename)
+        		 ->setFirstName($firstName)
+        		 ->setLastName($lastName);
+
             $manager->persist($user);
             $manager->flush();
 
             return $this->redirectToRoute("account");
         }
         return $this->render('users/account.twig', [
-            'accountForm' => $accountForm->createView()
+            "firstName" => $firstName,
+            "lastName" => $lastName,
+            "avatar" => $avatar
         ]);
     }
 }

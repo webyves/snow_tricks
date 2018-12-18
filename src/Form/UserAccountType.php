@@ -6,7 +6,6 @@ use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserAccountType extends AbstractType
 {
@@ -15,7 +14,6 @@ class UserAccountType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('avatar', FileType::class)
         ;
     }
 

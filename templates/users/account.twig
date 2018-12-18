@@ -1,22 +1,26 @@
 {% extends 'base.twig' %}
-{% form_theme accountForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Mon Compte{% endblock %}
 
 {% block body %}
-        <h1>Mon Compte</h1>
-        {{ form_start(accountForm) }}
-        {{ form_row(accountForm.firstName, {
-                'attr': {'placeholder': "Votre Prénom"},
-                'label': "Prénom"}) }}
-        {{ form_row(accountForm.lastName, {
-                'attr': {'placeholder': "Votre Nom de Famille"},
-                'label': "Nom de famille"}) }}
-        {{ form_row(accountForm.avatar, {
-                'label': "Votre Avatar"}) }}
+<h1>Mon Compte</h1>
+<form  method="post" enctype="multipart/form-data" name="user_account">
+        <div class="form-group">
+                <input type="text" name="firstName" class="form-control" value="{{ firstName }}">
+        </div>
+        <div class="form-group">
+                <input type="text" name="lastName" class="form-control" value="{{ lastName }}">
+        </div>
+        <div class="form-group">
+                <input type="file" name="avatarFile" class="form-control-file">
+        </div>
+        {% if avatar %}
+        <div>
+                <img class="rounded-circle" src="/uploads/avatar/{{ avatar }}">
+        </div>
+        {% endif %}
         <button type="submit" class="btn btn-success">
         	Je Modifie mes infos
         </button>
-        {{ form_end(accountForm) }}
-
+</form>
 {% endblock %}
