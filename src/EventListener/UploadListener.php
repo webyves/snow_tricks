@@ -3,7 +3,6 @@ namespace App\EventListener;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\Entity\TrickImage;
@@ -25,7 +24,7 @@ class UploadListener
         // retirer l'ancien avatar
         // if ($entity instanceof Users) {
         //     if ($fileName = $entity->getAvatar()) {
-        //         $entity->setAvatar($this->uploader->getUserAvatarDirectory().'/'.$fileName);
+        //         $entity->setAvatar($this->uploader->getDirectory("userAvatar").'/'.$fileName);
         //         $this->removeFile($entity);
         //     }
         // }
@@ -39,7 +38,6 @@ class UploadListener
 
         if ($entity instanceof TrickImage) {
             if ($fileName = $entity->getLink()) {
-                $entity->setLink($this->uploader->getTrickImagesDirectory().'/'.$fileName);
                 $this->removeFile($entity);
             }
         }
@@ -64,14 +62,11 @@ class UploadListener
     {
         if ($entity instanceof TrickImage) {
             $filename = $entity->getLink();
+            $this->uploader->removeFile($filename, "trickImages");
         // } elseif ($entity instanceof Users) {
         //     $filename = $entity->getAvatar();
-        } else {
-            return;
-        }
-
-        $filesystem = new Filesystem();
-        $filesystem->remove($filename);
+             // $this->uploader->removeFile($filename, "userAvatar");
+       }
         
     }
 }

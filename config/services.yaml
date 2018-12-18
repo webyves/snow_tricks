@@ -31,8 +31,7 @@ services:
 
     App\Service\FileUploader:
         arguments:
-            $trickImagesDirectory: '%trick_images_directory%'
-            $userAvatarDirectory: '%user_avatar_directory%'
+            $directories: {userAvatar: '%user_avatar_directory%', trickImages: '%trick_images_directory%'}
 
     App\EventListener\UploadListener:
         tags:

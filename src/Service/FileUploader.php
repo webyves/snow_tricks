@@ -7,13 +7,12 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FileUploader
 {
-    private $trickImagesDirectory;
-    private $userAvatarDirectory;
+    private $directories; 
 
-    public function __construct($trickImagesDirectory, $userAvatarDirectory)
+    public function __construct($directories)
     {
-        $this->trickImagesDirectory = $trickImagesDirectory;
-        $this->userAvatarDirectory = $userAvatarDirectory;
+        // directories list in config/services.yaml
+        $this->directories = $directories;
     }
 
     public function upload(UploadedFile $file, $directory)
@@ -21,15 +20,7 @@ class FileUploader
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
         try {
-            switch ($directory) {
-                case 'trickImages':
-                    $file->move($this->getTrickImagesDirectory(), $fileName);
-                    break;
-                
-                case 'userAvatar':
-                    $file->move($this->getUserAvatarDirectory(), $fileName);
-                    break;
-            }
+            $file->move($this->getDirectory($directory), $fileName);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }
@@ -38,26 +29,13 @@ class FileUploader
     }
 
     public function removeFile($fileName, $directory){
-        switch ($directory) {
-            case 'trickImages':
-                $completeFileName = $this->getTrickImagesDirectory() . '/' . $fileName;
-                break;
-            
-            case 'userAvatar':
-                $completeFileName = $this->getUserAvatarDirectory() . '/' . $fileName;
-                break;
-        }
+        $completeFileName = $this->getDirectory($directory) . '/' . $fileName;
         $filesystem = new Filesystem();
         $filesystem->remove($completeFileName);
     }
 
-    public function getTrickImagesDirectory()
+    public function getDirectory($directory)
     {
-        return $this->trickImagesDirectory;
-    }
-
-    public function getUserAvatarDirectory()
-    {
-        return $this->userAvatarDirectory;
+        return $this->directories[$directory];
     }
 }
