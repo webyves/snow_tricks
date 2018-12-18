@@ -33,7 +33,10 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+                        <a class="nav-link" href="{{ path('account') }}">Mon Compte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ path('security_logout') }}"><em class="fas fa-power-off"></em></a>
                     </li>
                     {% endif %}
                 </ul>

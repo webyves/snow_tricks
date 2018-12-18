@@ -22,15 +22,15 @@ class UploadListener
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        dump($entity);
         // retirer l'ancien avatar
-/*        if ($entity instanceof Users) {
-            if ($fileName = $entity->getAvatar()) {
-                $entity->setAvatar($this->uploader->getUserAvatarDirectory().'/'.$fileName);
-                $this->removeFile($entity);
-            }
-        }
-*/        
+        // if ($entity instanceof Users) {
+        //     if ($fileName = $entity->getAvatar()) {
+        //         $entity->setAvatar($this->uploader->getUserAvatarDirectory().'/'.$fileName);
+        //         $this->removeFile($entity);
+        //     }
+        // }
+        
         $this->uploadFile($entity);
     }
 

@@ -11,9 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
- * @UniqueEntity(
- fields={"email"},
- message="L'email est deja utilisé")
+ * @UniqueEntity(fields={"email"}, message="L'email est deja utilisé")
  */
 class Users implements UserInterface
 {
@@ -26,15 +24,13 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email(
-     *     message = "cet email '{{ value }}' est invalide.")
+     * @Assert\Email(message = "cet email '{{ value }}' est invalide.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="6",
-          minMessage = "Votre message doit faire au moins 6 caracteres")
+     * @Assert\Length(min="6", minMessage = "Votre message doit faire au moins 6 caracteres")
      */
     private $password;
 
@@ -54,7 +50,8 @@ class Users implements UserInterface
     private $dateInscription;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Image(maxSize="100k", maxSizeMessage="Fichier trop lourd 100k Maxi !")
      */
     private $avatar;
 
@@ -161,12 +158,14 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
+    // public function getAvatar(): ?string
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
-    public function setAvatar(string $avatar): self
+    // public function setAvatar(string $avatar): self
+    public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
 

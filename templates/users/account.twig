@@ -1,0 +1,22 @@
+{% extends 'base.twig' %}
+{% form_theme accountForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+        <h1>Mon Compte</h1>
+        {{ form_start(accountForm) }}
+        {{ form_row(accountForm.firstName, {
+                'attr': {'placeholder': "Votre Prénom"},
+                'label': "Prénom"}) }}
+        {{ form_row(accountForm.lastName, {
+                'attr': {'placeholder': "Votre Nom de Famille"},
+                'label': "Nom de famille"}) }}
+        {{ form_row(accountForm.avatar, {
+                'label': "Votre Avatar"}) }}
+        <button type="submit" class="btn btn-success">
+        	Je Modifie mes infos
+        </button>
+        {{ form_end(accountForm) }}
+
+{% endblock %}
