@@ -26,7 +26,6 @@ class SecurityController extends AbstractController
         	$hash = $encoder->encodePassword($user, $user->getPassword());
         	
             $user->setDateInscription(new \DateTime())
-            	->setAvatar("http://blog.ybernier.fr/public/img/avatar_head.png")
             	->setPassword($hash);
 
             $manager->persist($user);

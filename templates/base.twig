@@ -33,7 +33,16 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+                        <a class="nav-link" href="{{ path('account') }}">
+                            {% if app.user.avatar %}
+                                <img class="imgAvatar imgAvatarMenu rounded-circle img-fluid" src="/uploads/avatar/{{ app.user.avatar }}" title="Mon Compte">
+                            {% else %}
+                                <em class="fas fa-users-cog" title="Mon Compte"></em>
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ path('security_logout') }}"><em class="fas fa-power-off" title="Deconnexion"></em></a>
                     </li>
                     {% endif %}
                 </ul>

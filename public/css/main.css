@@ -15,3 +15,43 @@
 .homeInfosTxtMuted {
 	line-height: 0.3em;
 }
+
+/* AVATAR STYLE */
+.imgAvatar {
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgba(0,0,0,7);
+}
+.imgAvatarFull {
+	max-width: 148px;
+	max-height: 148px;
+}
+.imgAvatarComment {
+	max-width: 58px;
+	max-height: 58px;
+	border-color: rgba(0,0,0,.5);
+}
+.imgAvatarComment:hover {
+	border-color: rgba(0,0,0,.7);
+}
+.imgAvatarMenu {
+	max-width: 28px;
+	max-height: 28px;
+	opacity: 0.7;
+	border-color: rgba(0,0,0,.5);
+}
+.imgAvatarMenu:hover {
+	opacity: 1;
+	border-color: rgba(0,0,0,.7);
+}
+
+/* COMMENT STYLE */
+.trickComment {
+	background-color: rgba(153, 204, 255,.6);
+	margin: 10px 0px;
+}
+.trickCommentGauche {
+}
+.trickCommentDroite {
+	background-color: rgba(0, 0, 0,.1)
+}
