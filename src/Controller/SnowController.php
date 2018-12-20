@@ -32,6 +32,7 @@ class SnowController extends AbstractController
     const NUMBER_OF_TRICKS_PER_PAGE = 4;
     const NUMBER_OF_IMAGES_PER_PAGE = 10;
     const NUMBER_OF_VIDEOS_PER_PAGE = 10;
+    const NUMBER_OF_COMMENTS_PER_PAGE = 5;
 
     /**
      * @Route("/", name="home")
@@ -50,39 +51,13 @@ class SnowController extends AbstractController
     }
 
     /**
-     * @Route("/ajax_page/{pageNb}", name="ajax_tricks_list", requirements={"pageNb"="\d+"})
-     */
-    public function tricksPages($pageNb, TricksRepository $trickRepo, Request $req)
-    {
-        $nbTricks = $trickRepo->count([]);
-        $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
-        $offset = ($pageNb * self::NUMBER_OF_TRICKS_PER_PAGE);
-        $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, $offset);
-        $nbPages -= $pageNb;
-        $pageNb++;
-        // if ($req->isXMLHttpRequest() ) {
-        //     return new JsonResponse(array('tricks' => json_encode($tricks), 'pageNb' => $pageNb, 'nbPages' => $nbPages));
-        // }
-        // return new Response("erreur ceci n'est pas une requete Ajax", 400);
-        return $this->render('snow/ajaxTricksList.twig', [
-                "tricks" => $tricks,
-                "pageNb" => $pageNb,
-                "nbPages" => $nbPages
-            ]);
-
-    }
-    
-    /**
      * @Route("/tricks/{id}", name="show_trick")
      */
     public function showTrick(Tricks $trick, Request $request, ObjectManager $manager)
     {
         $trickComment = new TrickComment();
-
         $form = $this->createForm(TrickCommentType::class, $trickComment);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
 
@@ -97,7 +72,8 @@ class SnowController extends AbstractController
         }
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
-                "trickCommentForm" => $form->createView()
+                "trickCommentForm" => $form->createView(),
+                "maxComments" => self::NUMBER_OF_COMMENTS_PER_PAGE
             ]);
     }
 
