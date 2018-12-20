@@ -79,10 +79,10 @@
 </div>
 <hr>
 {% endif %}
-<h2>{{ trick.trickComments | length}} Commentaires</h2>
+<h2>{{ trick.trickComments | length }} Commentaires</h2>
 <div class="row">
     <div class="col">
-        {% for comment in trick.trickComments %}
+        {% for comment in trick.trickComments | slice(0, maxComments) %}
         <div class="row trickComment">
             <div class="col-sm-2 trickCommentGauche text-center">
                 {% if comment.userCreate.avatar %}
@@ -107,4 +107,19 @@
         {% endfor %}
     </div>
 </div>
+<hr>
+{% if trick.trickComments | length > maxComments %}
+<div class="ajax_comments_list">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-block btn-secondary btn_action_ajax_comments_list" data-trickid="{{ trick.id }}" data-pagenb="1">Plus de Commentaires</button>
+        </div>
+    </div>
+</div>
+<hr>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/trick.js"></script>
 {% endblock %}
