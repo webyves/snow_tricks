@@ -4,26 +4,17 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Users;
 use App\Entity\Tricks;
 use App\Entity\TrickGroup;
 use App\Entity\TrickComment;
-use App\Entity\TrickVideo;
-use App\Entity\TrickImage;
 
 use App\Form\TrickType;
 use App\Form\TrickCommentType;
-use App\Form\TrickVideoType;
-use App\Form\TrickImageType;
 
 use App\Repository\TricksRepository;
 
@@ -114,66 +105,6 @@ class SnowController extends AbstractController
     }
 
     /**
-     * @Route("/edit_video/{id}", name="edit_video_trick")
-     */
-    public function formTrickVideo(Tricks $trick, Request $request, ObjectManager $manager)
-    {
-        $trickVideos = $trick->getTrickVideos();
-
-        $trickVideo = new TrickVideo();
-        $formTrickVideo = $this->createForm(TrickVideoType::class, $trickVideo);
-
-        $formTrickVideo->handleRequest($request);
-        if ($formTrickVideo->isSubmitted() && $formTrickVideo->isValid()) {
-
-            $subject = $trickVideo->getLink();
-            $pattern = array('#width="[0-9]*"#', '#height="[0-9]*"#');
-            $replacement = array('', '');
-            $trickVideoUrl = preg_replace($pattern, $replacement, $subject);
-
-            $trickVideo->setTrick($trick)
-                       ->setLink($trickVideoUrl);
-            $manager->persist($trickVideo);
-            $manager->flush();
-            return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
-        }
-                    
-
-        return $this->render('snow/formTrickVideo.twig', [
-            'trick' => $trick,
-            'trickVideos' => $trickVideos,
-            'formTrickVideo' => $formTrickVideo->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/edit_image/{id}", name="edit_image_trick")
-     */
-    public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager)
-    {
-        $trickImages = $trick->getTrickImages();
-
-        $trickImage = new TrickImage();
-        $formTrickImage = $this->createForm(TrickImageType::class, $trickImage);
-
-        $formTrickImage->handleRequest($request);
-        if ($formTrickImage->isSubmitted() && $formTrickImage->isValid()) {
-            $trickImage->setTrick($trick);
-
-            $manager->persist($trickImage);
-            $manager->flush();
-            return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
-        }
-                    
-
-        return $this->render('snow/formTrickImage.twig', [
-            'trick' => $trick,
-            'trickImages' => $trickImages,
-            'formTrickImage' => $formTrickImage->createView()
-        ]);
-    }
-
-    /**
      * @Route("/delete/{id}", name="delete_trick")
      * @IsGranted("ROLE_USER")
      */
@@ -183,33 +114,6 @@ class SnowController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('home');
-    }
-    
-    /**
-     * @Route("/delete_video/{id}", name="delete_trick_video")
-     * @IsGranted("ROLE_USER")
-     */
-    public function deleteTrickVideo(TrickVideo $trickVideo, ObjectManager $manager)
-    {
-        $trick = $trickVideo->getTrick();
-        $manager->remove($trickVideo);
-        $manager->flush();
-
-        return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
-    }
-    
-    /**
-     * @Route("/delete_image/{id}", name="delete_trick_image")
-     * @IsGranted("ROLE_USER")
-     */
-    public function deleteTrickImage(TrickImage $trickImage, ObjectManager $manager)
-    {
-        $trick = $trickImage->getTrick();
-        $manager->remove($trickImage);
-        $manager->flush();
-
-        return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
-        // return;
     }
     
 }
