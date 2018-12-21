@@ -21,8 +21,8 @@ use App\Repository\TricksRepository;
 class SnowController extends AbstractController
 {
     const NUMBER_OF_TRICKS_PER_PAGE = 4;
-    const NUMBER_OF_IMAGES_PER_PAGE = 10;
-    const NUMBER_OF_VIDEOS_PER_PAGE = 10;
+    const NUMBER_OF_IMAGES_PER_PAGE = 3;
+    const NUMBER_OF_VIDEOS_PER_PAGE = 3;
     const NUMBER_OF_COMMENTS_PER_PAGE = 5;
 
     /**
@@ -64,7 +64,9 @@ class SnowController extends AbstractController
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
                 "trickCommentForm" => $form->createView(),
-                "maxComments" => self::NUMBER_OF_COMMENTS_PER_PAGE
+                "maxComments" => self::NUMBER_OF_COMMENTS_PER_PAGE,
+                "maxImages" => self::NUMBER_OF_IMAGES_PER_PAGE,
+                "maxVideos" => self::NUMBER_OF_VIDEOS_PER_PAGE
             ]);
     }
 
