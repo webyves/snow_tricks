@@ -27,27 +27,25 @@
                 </div>
             </div>
             <div class="col-sm-2">
-                {% if trick.trickImages | length > maxImages %} 
-                    <div class="ajax_images_list">
-                        <div class="row">
-                            <div class="col text-center">
-                                <h6>{{ trick.trickImages | length }} Photos</h6>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_ajax_images_list" data-loadimage="-1" data-dir="prev" data-trickid="{{ trick.id }}" id="btnImgPrev"><em class="fas fa-chevron-circle-up"></em></button>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_ajax_images_list" data-loadimage="{{ maxImages }}" data-dir="next" data-trickid="{{ trick.id }}" id="btnImgNext"><em class="fas fa-chevron-circle-down"></em></button>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <h6>{{ trick.trickImages | length }} Photos</h6>
                     </div>
-                    <hr>
+                </div>
+                {% if trick.trickImages | length > maxImages %} 
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="-1" data-dir="prev" id="btnImgPrev"><em class="fas fa-chevron-circle-up"></em></button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="{{ maxImages }}" data-dir="next" id="btnImgNext"><em class="fas fa-chevron-circle-down"></em></button>
+                    </div>
+                </div>
+                <hr>
                 {% endif %}
                 {% for trickImage in trick.trickImages | slice(0, maxImages) %}
                 <div class="row">
-                    <div class="col" id="divImgClickable_{{ loop.index }}">
+                    <div class="col">
                         <img src="{{ asset('uploads/trick_images/' ~ trickImage.link) }}" class="img-fluid rounded imgClickable" id="imgClickable_{{ loop.index }}">
                     </div>
                 </div>
@@ -82,10 +80,25 @@
             {% endif %}
         </div>
         <hr>
-        <h2>{{ trick.trickVideos | length}} Videos</h2>
         <div class="row">
-            {% for trickVideo in trick.trickVideos | slice(0,3) %}
-            <div class="col-4">
+            <div class="col">
+                <h6>{{ trick.trickVideos | length}} Videos</h6>                
+            </div>
+        </div>
+        {% if trick.trickVideos | length > maxVideos %} 
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="-1" data-dir="prev" id="btnVidPrev"><em class="fas fa-chevron-circle-left"></em></button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="{{ maxVideos }}" data-dir="next" id="btnVidNext"><em class="fas fa-chevron-circle-right"></em></button>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        <div class="row">
+            {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
+            <div class="col-4" id="divVideo_{{ loop.index }}">
                 {{ trickVideo.link | raw }}
             </div>
             {% endfor %}
@@ -154,6 +167,7 @@
         var nbImages = {{ trick.trickImages | length }};
         var nbVideos = {{ trick.trickVideos | length }};
         var trickImagesTab = [ {% for image in trick.trickImages %}{% if not loop.first %}, {% endif %}'{{ image.link }}'{% endfor %} ];
+        var trickVideosTab = [ {% for video in trick.trickVideos %}{% if not loop.first %}, {% endif %}'{{ video.link | raw }}'{% endfor %} ];
     </script>
     <script src="/js/trick.js"></script>
 {% endblock %}

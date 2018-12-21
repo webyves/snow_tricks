@@ -22,7 +22,7 @@ $(document).ready(function() {
     /****************************************
         Function Change Image list
     ****************************************/
-    $(document).on("click", ".btn_action_ajax_images_list", function(){
+    $(document).on("click", ".btn_action_images_list", function(){
         if($(this).data("loadimage") >= 0 && $(this).data("loadimage") < nbImages) {
             var prevloadimage = $("#btnImgPrev").data("loadimage");
             var nextloadimage = $("#btnImgNext").data("loadimage");
@@ -41,6 +41,31 @@ $(document).ready(function() {
             }
             $("#btnImgPrev").data("loadimage", prevloadimage)
             $("#btnImgNext").data("loadimage", nextloadimage)
+        }
+    });
+
+    /****************************************
+        Function Change Video list
+    ****************************************/
+    $(document).on("click", ".btn_action_videos_list", function(){
+        if($(this).data("loadvideo") >= 0 && $(this).data("loadvideo") < nbVideos) {
+            var prevloadvideo = $("#btnVidPrev").data("loadvideo");
+            var nextloadvideo = $("#btnVidNext").data("loadvideo");
+            if($(this).data("dir") === "next") {
+                $("#divVideo_1").html($("#divVideo_2").html());
+                $("#divVideo_2").html($("#divVideo_3").html());
+                $("#divVideo_3").html(trickVideosTab[$(this).data("loadvideo")]);
+                prevloadvideo = prevloadvideo + 1;
+                nextloadvideo = nextloadvideo + 1;
+            } else if ($(this).data("dir") === "prev"){
+                $("#divVideo_3").html($("#divVideo_2").html());
+                $("#divVideo_2").html($("#divVideo_1").html());
+                $("#divVideo_1").html(trickVideosTab[$(this).data("loadvideo")]);
+                prevloadvideo = prevloadvideo - 1;
+                nextloadvideo = nextloadvideo - 1;
+            }
+            $("#btnVidPrev").data("loadvideo", prevloadvideo)
+            $("#btnVidNext").data("loadvideo", nextloadvideo)
         }
     });
 
