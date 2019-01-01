@@ -30,7 +30,10 @@ class SecurityController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
-
+            $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
+                                        Vous allez recevoir un email pour valider votre inscription,<br>
+                                        Si il n\'est pas arrivé d\'ici à 5 min verfiez vos courriers indésirable,<br>
+                                        <strong>Merci</strong>.');
             return $this->redirectToRoute("security_login");
 
         }
