@@ -31,6 +31,7 @@ class TrickImageController extends SnowController
 
             $manager->persist($trickImage);
             $manager->flush();
+            $this->addFlash('success', 'L\'image à bien été Ajoutée,<br><strong>Merci</strong>.');
             return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
         }
                     
@@ -51,7 +52,7 @@ class TrickImageController extends SnowController
         $trick = $trickImage->getTrick();
         $manager->remove($trickImage);
         $manager->flush();
-
+        $this->addFlash('success', 'L\'image à bien été supprimé,<br><strong>Merci</strong>.');
         return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
     }
     

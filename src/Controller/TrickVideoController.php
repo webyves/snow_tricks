@@ -53,6 +53,7 @@ class TrickVideoController extends SnowController
                        ->setLink($trickVideoUrl);
             $manager->persist($trickVideo);
             $manager->flush();
+            $this->addFlash('success', 'Votre lien Video à bien été ajouté,<br><strong>Merci</strong>.');
             return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
         }
                     
@@ -73,7 +74,7 @@ class TrickVideoController extends SnowController
         $trick = $trickVideo->getTrick();
         $manager->remove($trickVideo);
         $manager->flush();
-
+        $this->addFlash('success', 'Le lien video à bien été supprimé,<br><strong>Merci</strong>.');
         return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
     }
     

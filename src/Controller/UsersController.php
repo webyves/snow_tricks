@@ -37,7 +37,7 @@ class UsersController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
-
+            $this->addFlash('success', 'Vos modifiations ont bien été pises en compte,<br><strong>Merci</strong>.');
             return $this->redirectToRoute("account");
         }
         return $this->render('users/account.twig', [
