@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class TrickImage
 {
+    public const IMAGES_PER_PAGE = 3;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

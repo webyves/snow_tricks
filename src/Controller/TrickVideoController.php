@@ -30,9 +30,24 @@ class TrickVideoController extends SnowController
         if ($formTrickVideo->isSubmitted() && $formTrickVideo->isValid()) {
 
             $subject = $trickVideo->getLink();
-            $pattern = array('#width="[0-9]*"#', '#height="[0-9]*"#');
-            $replacement = array('', '');
-            $trickVideoUrl = preg_replace($pattern, $replacement, $subject);
+            $trickVideoUrl = null;
+            $patternSrc = '#(https?://(www\.)?(youtube|dailymotion){1}\.com/embed/(video/)?\w*)#';
+            if (preg_match($patternSrc, $subject, $matches)) {
+                $trickVideoUrl = $matches[1];
+            }
+            if(!$trickVideoUrl) {
+                $this->addFlash('danger', '<strong>Erreur de saisie !</strong><br>
+                                            Votre liens n\'est pas un lien youtube ou dailymotion correct,<br>
+                                            Merci de respecter : 
+                                            <hr>
+                                            L\'exemple suivant :<br>
+                                            https://www.youtube.com/embed/xyz123
+                                            <hr>
+                                            Ou recopier le code fournis par la plateforme dans :<br> 
+                                            partager -> video integrée
+                                            ');
+                return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
+            }
 
             $trickVideo->setTrick($trick)
                        ->setLink($trickVideoUrl);

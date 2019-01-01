@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TrickVideo
 {
+    public const VIDEOS_PER_PAGE = 3;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

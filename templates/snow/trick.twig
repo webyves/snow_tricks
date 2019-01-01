@@ -5,21 +5,52 @@
 
 {% block body %}
 {% include 'snow/confirmDeleteTrickModal.twig' %}
+<hr>
 <div class="row">
     <div class="col">
         <div class="row">
-            <div class="col text-center">
-                {% if trick.trickImages[0] is defined %}
-                <img class="img-fluid" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
-                {% else %}
-                <img class="img-fluid" src="/img/default.jpg" alt="Snow Trick Image par default">
-                {% endif %}
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col text-center">
+                        {% if trick.trickImages[0] is defined %}
+                        <img class="img-fluid" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}" id="imgFull">
+                        {% else %}
+                        <img class="img-fluid" src="/img/default.jpg" alt="Snow Trick Image par default">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <h3><strong>{{ trick.name }}</strong></h3>
+                        <h5 class=""><em>[ {{ trick.trickGroup.name }} ]</em></h5>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col text-center">
-                <h3><strong>{{ trick.name }}</strong></h3>
-                <h5 class=""><em>[ {{ trick.trickGroup.name }} ]</em></h5>
+            <div class="col-sm-2">
+                <div class="row">
+                    <div class="col text-center">
+                        <h6>{{ trick.trickImages | length }} Photos</h6>
+                    </div>
+                </div>
+                {% if trick.trickImages | length > maxImages %} 
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="-1" data-dir="prev" id="btnImgPrev"><em class="fas fa-chevron-circle-up"></em></button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="{{ maxImages }}" data-dir="next" id="btnImgNext"><em class="fas fa-chevron-circle-down"></em></button>
+                    </div>
+                </div>
+                <hr>
+                {% endif %}
+                {% for trickImage in trick.trickImages | slice(0, maxImages) %}
+                <div class="row">
+                    <div class="col">
+                        <img src="{{ asset('uploads/trick_images/' ~ trickImage.link) }}" class="img-fluid rounded imgClickable" id="imgClickable_{{ loop.index }}">
+                    </div>
+                </div>
+                {% if loop.index < maxImages %}<hr>{% endif %}
+                {% endfor %}
             </div>
         </div>
         <hr>
@@ -49,16 +80,26 @@
             {% endif %}
         </div>
         <hr>
-        <h2>{{ trick.trickImages | length}} Photos & {{ trick.trickVideos | length}} Videos</h2>
         <div class="row">
-            {% for trickImage in trick.trickImages %}
-            <div class="col-2">
-                <img src="{{ asset('uploads/trick_images/' ~ trickImage.link) }}" class="img-fluid">
+            <div class="col">
+                <h6>{{ trick.trickVideos | length}} Videos</h6>                
             </div>
-            {% endfor %}
-            {% for trickVideo in trick.trickVideos %}
+        </div>
+        {% if trick.trickVideos | length > maxVideos %} 
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="-1" data-dir="prev" id="btnVidPrev"><em class="fas fa-chevron-circle-left"></em></button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="{{ maxVideos }}" data-dir="next" id="btnVidNext"><em class="fas fa-chevron-circle-right"></em></button>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        <div class="row">
+            {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
             <div class="col-4">
-                {{ trickVideo.link | raw }}
+                <embed type="video/webm" src="{{ trickVideo.link }}" id="divVideo_{{ loop.index }}"></embed>
             </div>
             {% endfor %}
         </div>
@@ -121,5 +162,12 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        var trickId = {{ trick.id }};
+        var nbImages = {{ trick.trickImages | length }};
+        var nbVideos = {{ trick.trickVideos | length }};
+        var trickImagesTab = [ {% for image in trick.trickImages %}{% if not loop.first %}, {% endif %}'{{ image.link }}'{% endfor %} ];
+        var trickVideosTab = [ {% for video in trick.trickVideos %}{% if not loop.first %}, {% endif %}'{{ video.link | raw }}'{% endfor %} ];
+    </script>
     <script src="/js/trick.js"></script>
 {% endblock %}
