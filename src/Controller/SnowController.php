@@ -32,7 +32,10 @@ class SnowController extends AbstractController
     {
         $nbTricks = $trickRepo->count([]);
         $nbPages = $nbTricks / self::NUMBER_OF_TRICKS_PER_PAGE;
+        // $nbPages = $nbTricks / Tricks::NUMBER_OF_TRICKS_PER_PAGE;
         $tricks = $trickRepo->findBy([], null, self::NUMBER_OF_TRICKS_PER_PAGE, 0);
+        // findBy([], ["dateCreate"=>"DESC"],
+        // attention il faudra revoir toute la pagination
 
         return $this->render('snow/home.twig', [
                 "tricks" => $tricks,
@@ -47,6 +50,9 @@ class SnowController extends AbstractController
     public function showTrick(Tricks $trick, Request $request, ObjectManager $manager)
     {
         $trickComment = new TrickComment();
+
+        // $trickComment = TrickComment::create();
+        
         $form = $this->createForm(TrickCommentType::class, $trickComment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,11 +60,12 @@ class SnowController extends AbstractController
 
             $trickComment->setDateCreate(new \DateTime())
                          ->setTrick($trick)
-                         ->setUserCreate($user);
+                         ->setUserCreate($user)
+                         ->setText(strip_tags($trickComment->getText()));
 
             $manager->persist($trickComment);
             $manager->flush();
-
+            $this->addFlash('success', 'Votre commentaire à bien été ajouté,<br><strong>Merci</strong>.');
             return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
         }
         return $this->render('snow/trick.twig', [
@@ -85,8 +92,9 @@ class SnowController extends AbstractController
         $formTrick->handleRequest($request);
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
-
+            $msg = "modifiée";
             if(!$trick->getId()){
+                $msg = "ajoutée";
                 $trick->setDateCreate(new \DateTime())
                       ->setUserCreate($user);
             }
@@ -95,6 +103,7 @@ class SnowController extends AbstractController
 
             $manager->persist($trick);
             $manager->flush();
+            $this->addFlash('success', 'Votre Figure à bien été '.$msg.',<br><strong>Merci</strong>.');
             return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
         }
                     
@@ -114,7 +123,7 @@ class SnowController extends AbstractController
     {
         $manager->remove($trick);
         $manager->flush();
-
+        $this->addFlash('success', 'Votre figure à bien été supprimée,<br><strong>Merci</strong>.');
         return $this->redirectToRoute('home');
     }
     

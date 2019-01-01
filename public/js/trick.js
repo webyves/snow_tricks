@@ -52,15 +52,15 @@ $(document).ready(function() {
             var prevloadvideo = $("#btnVidPrev").data("loadvideo");
             var nextloadvideo = $("#btnVidNext").data("loadvideo");
             if($(this).data("dir") === "next") {
-                $("#divVideo_1").html($("#divVideo_2").html());
-                $("#divVideo_2").html($("#divVideo_3").html());
-                $("#divVideo_3").html(trickVideosTab[$(this).data("loadvideo")]);
+                $("#divVideo_1").attr('src', $("#divVideo_2").attr('src'));
+                $("#divVideo_2").attr('src', $("#divVideo_3").attr('src'));
+                $("#divVideo_3").attr('src', trickVideosTab[$(this).data("loadvideo")]);
                 prevloadvideo = prevloadvideo + 1;
                 nextloadvideo = nextloadvideo + 1;
             } else if ($(this).data("dir") === "prev"){
-                $("#divVideo_3").html($("#divVideo_2").html());
-                $("#divVideo_2").html($("#divVideo_1").html());
-                $("#divVideo_1").html(trickVideosTab[$(this).data("loadvideo")]);
+                $("#divVideo_3").attr('src', $("#divVideo_2").attr('src'));
+                $("#divVideo_2").attr('src', $("#divVideo_1").attr('src'));
+                $("#divVideo_1").attr('src', trickVideosTab[$(this).data("loadvideo")]);
                 prevloadvideo = prevloadvideo - 1;
                 nextloadvideo = nextloadvideo - 1;
             }
