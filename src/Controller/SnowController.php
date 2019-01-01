@@ -80,6 +80,7 @@ class SnowController extends AbstractController
     /**
      * @Route("/add", name="add_trick")
      * @Route("/edit/{id}", name="edit_trick")
+     * @IsGranted("ROLE_USER")
      */
     public function formTricks(Tricks $trick = null, Request $request, ObjectManager $manager)
     {
