@@ -24,14 +24,16 @@ class UsersController extends AbstractController
     	$avatar = $user->getAvatar();
 
     	if($request->request->count() > 0) {
-    		if ($avatar) {
-				$uploader->removeFile($avatar, "userAvatar"); 
-    		}
         	$firstName = $request->request->get("firstName");
         	$lastName = $request->request->get("lastName");
         	$file = $request->files->get("avatarFile");
-        	$filename = $uploader->upload($file, "userAvatar");
-        	$user->setAvatar($filename)
+            if ($file) {
+                if ($avatar) {
+                    $uploader->removeFile($avatar, "userAvatar"); 
+                }
+                $avatar = $uploader->upload($file, "userAvatar");
+            }
+        	$user->setAvatar($avatar)
         		 ->setFirstName($firstName)
         		 ->setLastName($lastName);
 
