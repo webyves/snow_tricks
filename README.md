@@ -8,10 +8,14 @@ Projet 6 du parcours DA PHP/Symfony de OpenClassrooms
 - liens vers analyse Codacy : https://app.codacy.com/project/webyves/snow_tricks/dashboard
 
 # Installation Notes
-1) Cloner le repository de GIT sur votre serveur
-2) Ajouter la base de donnée
-3) faites pointer votre multisite sur le dossier public
-4) Mettre a jour le fichier .env.local (situé a la racine) avec vos infos de connexion a votre base de donnée
-5) copier le fichier .htaccess dans le dossier public
+1) Cloner le repository sur votre serveur
+- verifier la presence du fichier .htaccess dans le dossier {VOTRE_DOSSIER_DE_PROJET}/public
+2) Importer le fichier SQL de votre choix sur votre base de donnée MySQL :
+- DB_MySQL_Install.sql est une base de donnée vierge
+- DB_MySQL_Demo.sql est une base de donnée avec un jeu de demo
+3) faites pointer votre domaine (ou sous-domaine multisite) sur le dossier {VOTRE_DOSSIER_DE_PROJET}/public
+4) Mettre a jour le fichier .env.local (situé a la racine) sur les lignes suivantes :
+- DATABASE_URL=mysql://db_login:db_password@db_server/db_name
+- MAILER_URL=null://localhost
 
 # Patch Notes
