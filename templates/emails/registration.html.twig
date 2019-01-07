@@ -1,10 +1,15 @@
-<h3>You did it! You registered!</h3>
-
-Hi {{ name }}! You're successfully registered.
-
-To login, go to: <a href="{{ url('security_login') }}">...</a>.
-
-Thanks!
-
-{# Makes an absolute URL to the /images/logo.png file #}
-<img src="{{ absolute_url(asset('images/logo.png')) }}">
+<h3>Bienvenue sur SnowTricks {{ user.username }}</h3>
+<p>
+	Votre compte à bien été enregistré.<br>
+	Cependant vous devez encore le valier en cliquant sur le liens suivant :<br>
+	<a href="{{ url('security_token', {value: token.value}) }}">Lien de validation de votre compte.</a><br><br>
+	<b>ATTENTION CE LIENS N'EST VALABLE QUE 14 JOURS !!!</b>
+<p>
+<p>
+	si le lien ne fonctionne par rendez vous manuellement a l'adresse suivante :<br>
+	{{ url('security_token', {value: token.value}) }}
+</p>
+<p>
+	<b>MERCI !</b>
+</p>
+<img src="{{ absolute_url(asset('img/snowboard.png')) }}">

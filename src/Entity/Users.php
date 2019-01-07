@@ -90,6 +90,10 @@ class Users implements UserInterface
         $this->userCreate = new ArrayCollection();
         $this->userUpdate = new ArrayCollection();
         $this->trickComments = new ArrayCollection();
+        
+        $this->setDateInscription(new \DateTime())
+             ->setValid(false);
+
     }
 
     public function getId(): ?int

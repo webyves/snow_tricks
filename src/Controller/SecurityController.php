@@ -26,15 +26,15 @@ class SecurityController extends Controller
 		$form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
         	$hash = $encoder->encodePassword($user, $user->getPassword());
-        	
-            $user->setDateInscription(new \DateTime())
-            	->setPassword($hash);
-
-            $this->sendRegistrationMail($user->getUsername());
+            $user->setPassword($hash);
             $manager->persist($user);
+
+            $token = new UserTokens($user, "registration");
+            $manager->persist($token);
+
             $manager->flush();
 
-
+            $this->sendRegistrationMail($user, $token);
             $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
                                         Vous allez recevoir un email pour valider votre inscription,<br>
                                         Si il n\'est pas arrivé d\'ici à 5 min verfiez vos courriers indésirable,<br>
@@ -47,16 +47,16 @@ class SecurityController extends Controller
         return $this->render('security/inscription.twig', ['formRegister' => $form->createView()]);
 	}
 
-    private function sendRegistrationMail($name)
+    private function sendRegistrationMail(Users $user, UserTokens $token)
     {
         $verif = false;
-        $message = (new \Swift_Message('Hello Email'))
+        $message = (new \Swift_Message('Inscription à SnowTricks'))
             ->setFrom('contact@ybernier.fr')
-            ->setTo('webyves@hotmail.com')
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
                     'emails/registration.html.twig',
-                    array('name' => $name)
+                    array('user' => $user, 'token' => $token)
                 ),
                 'text/html'
             )
@@ -84,7 +84,7 @@ class SecurityController extends Controller
     {
         if ($token->getdateToken() > new \DateTime()) {
             if ($token->getType() === "registration") {
-                
+
                 $token->setDateToken(new \DateTime());
                 $manager->persist($token);
 

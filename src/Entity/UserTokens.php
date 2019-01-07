@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserTokensRepository")
@@ -37,6 +38,15 @@ class UserTokens
      */
     private $user;
 
+    public function __construct(Users $user, $type) {
+        $now14j = new \DateTime();
+        $now14j->add(new \DateInterval('P14D'));
+        $this->setValue($this->newValue())
+             ->setType($type)
+             ->setDateToken($now14j)
+             ->setUser($user);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +62,12 @@ class UserTokens
         $this->value = $value;
 
         return $this;
+    }
+
+    private function newValue()
+    {
+        $value = md5(uniqid());
+        return $value;
     }
 
     public function getType(): ?string
