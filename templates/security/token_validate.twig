@@ -1,0 +1,15 @@
+{% extends 'base.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<h1>Validation de votre compte</h1>
+<p>
+	type : {{ token.type }} <br>
+	value : {{ token.value }} <br>
+	date : {{ token.dateToken | date('d-m-Y : H:i') }} <br>
+	username : {{ token.user.username }} <br>
+	userdate : {{ token.user.dateInscription | date('d-m-Y : H:i') }} <br>
+</p>
+
+{% endblock %}

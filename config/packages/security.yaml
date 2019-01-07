@@ -25,7 +25,9 @@ security:
             logout:
                 path: security_logout
                 target: home
-                
+
+            user_checker: App\Security\UserChecker   
+             
             # activate different ways to authenticate
 
             # http_basic: true
