@@ -55,16 +55,6 @@ class Users implements UserInterface
     private $avatar;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $tokenNewPwd;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateTokenNewPwd;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Tricks", mappedBy="userCreate")
      */
     private $userCreate;
@@ -83,6 +73,16 @@ class Users implements UserInterface
     * @Assert\EqualTo(propertyPath="password", message = "Votre mot de passe n'est pas identique à la confirmation")
     */
     public $confirmPassword;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserTokens", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userTokens;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valid;
 
     public function __construct()
     {
@@ -167,30 +167,6 @@ class Users implements UserInterface
     // public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getTokenNewPwd(): ?string
-    {
-        return $this->tokenNewPwd;
-    }
-
-    public function setTokenNewPwd(?string $tokenNewPwd): self
-    {
-        $this->tokenNewPwd = $tokenNewPwd;
-
-        return $this;
-    }
-
-    public function getDateTokenNewPwd(): ?\DateTimeInterface
-    {
-        return $this->dateTokenNewPwd;
-    }
-
-    public function setDateTokenNewPwd(?\DateTimeInterface $dateTokenNewPwd): self
-    {
-        $this->dateTokenNewPwd = $dateTokenNewPwd;
 
         return $this;
     }
@@ -331,5 +307,34 @@ class Users implements UserInterface
     public function getUsername() 
     {
         return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function getUserTokens(): ?UserTokens
+    {
+        return $this->userTokens;
+    }
+
+    public function setUserTokens(UserTokens $userTokens): self
+    {
+        $this->userTokens = $userTokens;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $userTokens->getUser()) {
+            $userTokens->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
+
+        return $this;
     }
 }

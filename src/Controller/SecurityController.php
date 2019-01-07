@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Users;
+use App\Entity\UserTokens;
 use App\Form\UserType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -29,7 +30,7 @@ class SecurityController extends Controller
             $user->setDateInscription(new \DateTime())
             	->setPassword($hash);
 
-            $this->sendResgistrationMail($user->getUsername());
+            $this->sendRegistrationMail($user->getUsername());
             $manager->persist($user);
             $manager->flush();
 
@@ -46,7 +47,7 @@ class SecurityController extends Controller
         return $this->render('security/inscription.twig', ['formRegister' => $form->createView()]);
 	}
 
-    public function sendResgistrationMail($name)
+    private function sendRegistrationMail($name)
     {
         $verif = false;
         $message = (new \Swift_Message('Hello Email'))
@@ -75,6 +76,35 @@ class SecurityController extends Controller
         $verif = true;
         return $verif;
     }
+
+    /**
+    * @Route("/token/{value}", name="security_token")
+    */
+    public function checkToken(UserTokens $token, Request $request, ObjectManager $manager)
+    {
+        if ($token->getdateToken() > new \DateTime()) {
+            if ($token->getType() === "registration") {
+                
+                $token->setDateToken(new \DateTime());
+                $manager->persist($token);
+
+                $user = $token->getUser();
+                $user->setValid(true);
+                $manager->persist($user);
+
+                $manager->flush();
+
+                $this->addFlash('success', 'Votre incription a bien été validé,<br><strong>Merci</strong>.');
+                return $this->redirectToRoute('security_login');
+            } elseif ($token->getType() === "reset_pwd") {
+
+                return $this->render('security/token_reset_pwd.twig', ['token' => $token]);
+            }            
+        }
+        $this->addFlash('danger', 'Vous avez depassé le delai pour cette demande,<br><strong>Merci de recommencé la procédure</strong>.');
+        return $this->redirectToRoute('home');
+    }
+
 
     /**
      * @Route("/login", name="security_login")
