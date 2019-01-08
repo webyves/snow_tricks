@@ -13,7 +13,7 @@ use App\Entity\UserTokens;
 use App\Form\UserType;
 use App\Form\UserResetPwdType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
@@ -122,9 +122,12 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="security_login")
      */
-    public function login()
+    public function login(Request $request, AuthenticationUtils $authUtils)
     {
-        return $this->render('security/connect.twig');
+    // get the login error if there is one
+        $error = $authUtils->getLastAuthenticationError();
+
+        return $this->render('security/connect.twig', array('error' => $error));
     }
 
     /**

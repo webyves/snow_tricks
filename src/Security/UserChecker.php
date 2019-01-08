@@ -28,10 +28,10 @@ class UserChecker implements UserCheckerInterface
         if (!$user->getValid()) {
             throw new CustomUserMessageAuthenticationException(
                 'Votre incription n\'a pas encore été validée,<br>
-                 Vous avez recu un email pour valider votre inscription,<br>
-                 Pensez à verfiez vos courriers indésirable,<br>
+                 Vous devez avoir recu un email pour valider votre inscription, contenant un lien valable 14 jours.<br>
+                 Si ce n\'est pas le cas pensez à verfiez vos courriers indésirable, ou contacter un administrateur.<br>
                  <strong>Merci</strong>.'
-            );
+             );
         }
     }
 
