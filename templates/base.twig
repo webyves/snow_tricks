@@ -27,6 +27,15 @@
                         <a class="nav-link" href="{{ path('add_trick') }}">Ajouter Figure</a>
                     </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('mentions') }}" title="Mentions Legales"><em class="fas fa-balance-scale"></em></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('politique') }}" title="Politique de confidientialité"><em class="fas fa-mask"></em></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('contact') }}" title="Contact"><em class="fas fa-envelope-open"></em></a>
+                    </li>
                     {% if not app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>

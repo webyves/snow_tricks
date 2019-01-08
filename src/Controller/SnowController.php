@@ -29,5 +29,29 @@ class SnowController extends AbstractController
                 "nbPages" => $nbPages
             ]);
     }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactForm()
+    {
+        return $this->render('snow/contact.twig');
+    }
+    
+    /**
+     * @Route("/mentions_legales", name="mentions")
+     */
+    public function mentionsPage()
+    {
+        return $this->render('snow/mentions.twig');
+    }
+    
+    /**
+     * @Route("/politiques_confidentialite", name="politique")
+     */
+    public function politiquePage()
+    {
+        return $this->render('snow/politique.twig');
+    }
     
 }
