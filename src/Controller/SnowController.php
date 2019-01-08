@@ -33,8 +33,25 @@ class SnowController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contactForm()
+    public function contactForm(Request $request, \Swift_Mailer $mailer)
     {
+        if ($request->request->count() > 0) {
+            $message = (new \Swift_Message('SnowTricks - Formulaire de contact'))
+                ->setFrom('contact@ybernier.fr')
+                ->setTo(strip_tags($request->request->get('email')))
+                ->setBody(
+                    $this->renderView(
+                        'emails/contact.html.twig',
+                        array(
+                            'name' => "name", 
+                            'message' =>"message")
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+            $this->addFlash('success', 'Votre Message à bien été envoyé.');
+            return $this->redirectToRoute('home');
+        }
         return $this->render('snow/contact.twig');
     }
     
