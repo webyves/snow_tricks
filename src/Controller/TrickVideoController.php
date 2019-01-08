@@ -13,7 +13,7 @@ use App\Entity\TrickVideo;
 use App\Form\TrickVideoType;
 
 
-class TrickVideoController extends SnowController
+class TrickVideoController extends AbstractController
 {
     /**
      * @Route("/edit_video/{id}", name="edit_video_trick")
