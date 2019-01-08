@@ -75,7 +75,7 @@ class Users implements UserInterface
     public $confirmPassword;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserTokens", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\UserTokens", mappedBy="user", orphanRemoval=true)
      */
     private $userTokens;
 

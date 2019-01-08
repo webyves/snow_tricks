@@ -1,0 +1,15 @@
+{% extends 'base.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<h1>Demande de Reinitialisation<br>de votre Mot de passe</h1>
+<form action="" method="post">
+	<div class="form-group">
+		<label for="email">Saisissez votre email de connexion :</label>
+		<input type="email" name="email" id="email" placeholder="mon.email@gmail.com" class="form-control">
+	</div>
+	<button type="submit" class="btn btn-success">Envoyer</button>
+</form>
+
+{% endblock %}
