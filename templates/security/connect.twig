@@ -17,7 +17,9 @@
 		<button type="submit" class="btn btn-success">Je me Connecte</button>
 	</div>
 </form>
-<h1>Pas Encore Inscit ?</h1>
+<h2>Vous avez perdu votre mot de passe ?</h2>
+<a href="{{ path('ask_reset_pwd') }}" class="btn btn-info">Mot de passe oublié</a>
+<h2>Pas Encore Inscit ?</h2>
 <a href="{{ path('security_registration') }}" class="btn btn-info">Je souhaite m'inscrire</a>
 
 {% endblock %}

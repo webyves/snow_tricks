@@ -33,17 +33,22 @@ class UserTokens
     private $dateToken;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Users", inversedBy="userTokens", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="userTokens")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     public function __construct(Users $user, $type) {
-        $now14j = new \DateTime();
-        $now14j->add(new \DateInterval('P14D'));
+        $validDate = new \DateTime();
+        if($type === "registration") {
+            $validDate->add(new \DateInterval('P14D'));
+        } elseif ($type === "reset_pwd") {
+            $validDate->add(new \DateInterval('PT2H'));
+        }
+
         $this->setValue($this->newValue())
              ->setType($type)
-             ->setDateToken($now14j)
+             ->setDateToken($validDate)
              ->setUser($user);
     }
 

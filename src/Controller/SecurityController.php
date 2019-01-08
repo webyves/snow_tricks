@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UsersRepository;
 use App\Entity\Users;
 use App\Entity\UserTokens;
 use App\Form\UserType;
+use App\Form\UserResetPwdType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -34,10 +36,10 @@ class SecurityController extends Controller
 
             $manager->flush();
 
-            $this->sendRegistrationMail($user, $token);
+            $this->sendTokenMail($user, $token);
             $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
                                         Vous allez recevoir un email pour valider votre inscription,<br>
-                                        Si il n\'est pas arrivé d\'ici à 5 min verfiez vos courriers indésirable,<br>
+                                        Pensez à verfiez vos courriers indésirable,<br>
                                         <strong>Merci</strong>.');
             return $this->redirectToRoute("security_login");
 
@@ -47,15 +49,108 @@ class SecurityController extends Controller
         return $this->render('security/inscription.twig', ['formRegister' => $form->createView()]);
 	}
 
-    private function sendRegistrationMail(Users $user, UserTokens $token)
+    /**
+    * @Route("/ask_reset_pwd", name="ask_reset_pwd")
+    */
+    public function askResetPwd(Request $request, ObjectManager $manager, UsersRepository $usersRepo)
+    {
+        if ($request->request->count() > 0) {
+            $user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))]);
+
+            $token = new UserTokens($user, "reset_pwd");
+            $manager->persist($token);
+
+            $manager->flush();
+
+            $this->sendTokenMail($user, $token);
+            $this->addFlash('success', 'Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>
+                                        Vous allez recevoir un email avec un lien unique valable 2h,<br>
+                                        Pensez à verfiez vos courriers indésirable,<br>
+                                        <strong>Merci</strong>.');
+            return $this->redirectToRoute("home");
+
+        }
+
+
+        return $this->render('security/ask_reset_pwd.twig');
+    }
+
+    /**
+    * @Route("/token/{value}", name="security_token")
+    */
+    public function checkToken(UserTokens $token, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
+        if ($token->getdateToken() > new \DateTime()) {
+            if ($token->getType() === "registration") {
+
+                $token->setDateToken(new \DateTime());
+                $manager->persist($token);
+
+                $user = $token->getUser();
+                $user->setValid(true);
+                $manager->persist($user);
+
+                $manager->flush();
+
+                $this->addFlash('success', 'Votre incription a bien été validé,<br><strong>Merci</strong>.');
+                return $this->redirectToRoute('security_login');
+
+            } elseif ($token->getType() === "reset_pwd") {
+                $user = $token->getUser();
+                $form = $this->createForm(UserResetPwdType::class, $user);
+
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $hash = $encoder->encodePassword($user, $user->getPassword());
+                    $user->setPassword($hash);
+                    $manager->persist($user);
+
+                    $token->setDateToken(new \DateTime());
+                    $manager->persist($token);
+
+                    $manager->flush();
+                    $this->addFlash('success', 'Votre à bien été reinitialisé.');
+                    return $this->redirectToRoute('security_login');
+                }
+                return $this->render('security/token_reset_pwd.twig', ['formResetPwd' => $form->createView()]);
+            }            
+        }
+        $this->addFlash('danger', 'Vous avez depassé le delai pour cette demande,<br><strong>Merci de recommencé la procédure</strong>.');
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/login", name="security_login")
+     */
+    public function login()
+    {
+        return $this->render('security/connect.twig');
+    }
+
+    /**
+     * @Route("/logout", name="security_logout")
+     */
+    public function logout()
+    {
+
+    }
+
+    private function sendTokenMail(Users $user, UserTokens $token)
     {
         $verif = false;
-        $message = (new \Swift_Message('Inscription à SnowTricks'))
+        if ($token->getType() === "registration") {
+            $subject = 'SnowTricks - Votre Inscription';
+            $view = 'emails/registration.html.twig';
+        } elseif ($token->getType() === "reset_pwd") {
+            $subject = 'SnowTricks - Reinitialisation de votre mot de passe';
+            $view = 'emails/reset_pwd.html.twig';
+        }
+        $message = (new \Swift_Message($subject))
             ->setFrom('contact@ybernier.fr')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
-                    'emails/registration.html.twig',
+                    $view,
                     array('user' => $user, 'token' => $token)
                 ),
                 'text/html'
@@ -75,50 +170,5 @@ class SecurityController extends Controller
         $this->get('mailer')->send($message);
         $verif = true;
         return $verif;
-    }
-
-    /**
-    * @Route("/token/{value}", name="security_token")
-    */
-    public function checkToken(UserTokens $token, Request $request, ObjectManager $manager)
-    {
-        if ($token->getdateToken() > new \DateTime()) {
-            if ($token->getType() === "registration") {
-
-                $token->setDateToken(new \DateTime());
-                $manager->persist($token);
-
-                $user = $token->getUser();
-                $user->setValid(true);
-                $manager->persist($user);
-
-                $manager->flush();
-
-                $this->addFlash('success', 'Votre incription a bien été validé,<br><strong>Merci</strong>.');
-                return $this->redirectToRoute('security_login');
-            } elseif ($token->getType() === "reset_pwd") {
-
-                return $this->render('security/token_reset_pwd.twig', ['token' => $token]);
-            }            
-        }
-        $this->addFlash('danger', 'Vous avez depassé le delai pour cette demande,<br><strong>Merci de recommencé la procédure</strong>.');
-        return $this->redirectToRoute('home');
-    }
-
-
-    /**
-     * @Route("/login", name="security_login")
-     */
-    public function login()
-    {
-        return $this->render('security/connect.twig');
-    }
-
-    /**
-     * @Route("/logout", name="security_logout")
-     */
-    public function logout()
-    {
-
     }
 }
