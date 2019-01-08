@@ -12,7 +12,7 @@ use App\Entity\Tricks;
 use App\Entity\TrickImage;
 use App\Form\TrickImageType;
 
-class TrickImageController extends SnowController
+class TrickImageController extends AbstractController
 {
     /**
      * @Route("/edit_image/{id}", name="edit_image_trick")
