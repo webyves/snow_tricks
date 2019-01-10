@@ -1,15 +1,17 @@
 {% extends 'base.twig' %}
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Ajout figure{% endblock %}
+{% block title %}
+	{{ editMode ? "modifier" : "ajouter" }} figure
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
 	<h1>
-		{% if editMode %}
-			Modifier une figure
-		{% else %}
-			Créer une figure
-		{% endif %}
+		{{ editMode ? "modifier" : "ajouter" }} une figure
 	</h1>
     {% if app.user %}
 		<section>
@@ -20,18 +22,15 @@
 			{{ form_row(formTrick.trickGroup, {
 	                        'label': "Groupe de figure"}) }}
 			{{ form_row(formTrick.content, {
-	                        'attr': {'placeholder': "Votre Texte sur la figure"},
+	                        'attr': {'placeholder': "Votre Texte sur la figure", 'class': "summernote"},
 	                        'label': "Description de la figure"}) }}
 			<button type="submit" class="btn btn-success">
-				{% if editMode %}
-					Modifier la figure
-				{% else %}
-					Ajouter la figure
-				{% endif %}
+				{{ editMode ? "modifier" : "ajouter" }} la figure
 			</button>
 			{{ form_end(formTrick) }}
 		</section>
 		{% if editMode %}
+		{# if tricks.id is defined #}
 			<hr>
 			<section>
 				<h3>Actuellement {{ trick.trickImages | length }} Photos</h3>
@@ -47,4 +46,13 @@
 		{% include 'snow/messageNeedConnect.twig'%}
 	{% endif %}
 
+{% endblock %}
+
+{% block javascripts %}
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function() {
+			$('.summernote').summernote();
+		});
+	</script>
 {% endblock %}
