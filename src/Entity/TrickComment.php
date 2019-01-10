@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TrickComment
 {
-    public const COMMENTS_PER_PAGE = 5;
     
     /**
      * @ORM\Id()

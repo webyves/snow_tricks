@@ -5,8 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Tricks;
-use App\Entity\TrickComment;
 use App\Repository\TricksRepository;
 use App\Repository\TrickCommentRepository;
 
@@ -20,9 +18,9 @@ class AjaxController extends AbstractController
     public function tricksPages($pageNb, TricksRepository $trickRepo, Request $req)
     {
         if ($req->isXMLHttpRequest() ) {
-	        $offset = ($pageNb * Tricks::TRICKS_PER_PAGE);
-	        $tricks = $trickRepo->findBy([], null, Tricks::TRICKS_PER_PAGE, $offset);
-	        $nbPages = ($trickRepo->count([]) / Tricks::TRICKS_PER_PAGE) - $pageNb;
+	        $offset = ($pageNb * getenv('TRICKS_PER_PAGE'));
+	        $tricks = $trickRepo->findBy([], null, getenv('TRICKS_PER_PAGE'), $offset);
+	        $nbPages = ($trickRepo->count([]) / getenv('TRICKS_PER_PAGE')) - $pageNb;
 	        $pageNb++;
 	        return $this->render('ajax/ajaxTricksList.twig', [
 	                "tricks" => $tricks,
@@ -40,9 +38,9 @@ class AjaxController extends AbstractController
     {
         if ($req->isXMLHttpRequest() ) {
         	$trickid = $req->request->get("trickid");
-	        $offset = ($pageNb * TrickComment::COMMENTS_PER_PAGE);
-	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], null, TrickComment::COMMENTS_PER_PAGE, $offset);
-	        $nbPages = ($TrickCommentRepo->count(["trick"=>$trickid]) / TrickComment::COMMENTS_PER_PAGE) - $pageNb;
+	        $offset = ($pageNb * getenv('COMMENTS_PER_PAGE'));
+	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], null, getenv('COMMENTS_PER_PAGE'), $offset);
+	        $nbPages = ($TrickCommentRepo->count(["trick"=>$trickid]) / getenv('COMMENTS_PER_PAGE')) - $pageNb;
 	        $pageNb++;
 	        return $this->render('ajax/ajaxCommentsList.twig', [
 	                "trickComments" => $trickComments,
