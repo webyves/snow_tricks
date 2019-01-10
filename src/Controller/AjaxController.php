@@ -18,9 +18,9 @@ class AjaxController extends AbstractController
     public function tricksPages($pageNb, TricksRepository $trickRepo, Request $req)
     {
         if ($req->isXMLHttpRequest() ) {
-	        $offset = ($pageNb * getenv('TRICKS_PER_PAGE'));
-	        $tricks = $trickRepo->findBy([], null, getenv('TRICKS_PER_PAGE'), $offset);
-	        $nbPages = ($trickRepo->count([]) / getenv('TRICKS_PER_PAGE')) - $pageNb;
+	        $offset = ($pageNb * $this->getParameter('perpage.tricks'));
+	        $tricks = $trickRepo->findBy([], null, $this->getParameter('perpage.tricks'), $offset);
+	        $nbPages = ($trickRepo->count([]) / $this->getParameter('perpage.tricks')) - $pageNb;
 	        $pageNb++;
 	        return $this->render('ajax/ajaxTricksList.twig', [
 	                "tricks" => $tricks,
@@ -38,9 +38,9 @@ class AjaxController extends AbstractController
     {
         if ($req->isXMLHttpRequest() ) {
         	$trickid = $req->request->get("trickid");
-	        $offset = ($pageNb * getenv('COMMENTS_PER_PAGE'));
-	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], null, getenv('COMMENTS_PER_PAGE'), $offset);
-	        $nbPages = ($TrickCommentRepo->count(["trick"=>$trickid]) / getenv('COMMENTS_PER_PAGE')) - $pageNb;
+	        $offset = ($pageNb * $this->getParameter('perpage.comments'));
+	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], null, $this->getParameter('perpage.comments'), $offset);
+	        $nbPages = ($TrickCommentRepo->count(["trick"=>$trickid]) / $this->getParameter('perpage.comments')) - $pageNb;
 	        $pageNb++;
 	        return $this->render('ajax/ajaxCommentsList.twig', [
 	                "trickComments" => $trickComments,

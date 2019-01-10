@@ -46,9 +46,9 @@ class TricksController extends AbstractController
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
                 "trickCommentForm" => $form->createView(),
-                "maxComments" => getenv('COMMENTS_PER_PAGE'),
-                "maxImages" => getenv('IMAGES_PER_PAGE'),
-                "maxVideos" => getenv('VIDEOS_PER_PAGE')
+                "maxComments" =>$this->getParameter('perpage.comments'),
+                "maxImages" => $this->getParameter('perpage.images'),
+                "maxVideos" => $this->getParameter('perpage.videos')
             ]);
     }
 
