@@ -35,23 +35,29 @@ class SnowController extends AbstractController
     public function contactForm(Request $request, \Swift_Mailer $mailer)
     {
         if ($request->request->count() > 0) {
-            $message = (new \Swift_Message('SnowTricks - Formulaire de contact'))
-                ->setFrom('contact@ybernier.fr')
-                ->setTo(strip_tags($request->request->get('email')))
-                ->setBody(
-                    $this->renderView(
-                        'emails/contact.html.twig',
-                        array(
-                            'name' => "name", 
-                            'message' =>"message")
-                    ),
-                    'text/html'
-                );
-            $mailer->send($message);
-            $this->addFlash('success', 'Votre Message à bien été envoyé.');
-            return $this->redirectToRoute('home');
+            if($this->checkReCaptcha($request->server->get('REMOTE_ADDR'), $request->request->get('g-recaptcha-response'))) {
+                $message = (new \Swift_Message('SnowTricks - Formulaire de contact'))
+                    ->setFrom(strip_tags($request->request->get('contactEmail')))
+                    ->setTo(getenv('ADMIN_CONTACT_EMAIL'))
+                    ->setBody(
+                        $this->renderView(
+                            'emails/contact.html.twig',
+                            array(
+                                'name' => strip_tags($request->request->get('contactFirstname')) . " " . strip_tags($request->request->get('contactLastname')),
+                                'subject' => strip_tags($request->request->get('contactSubject')),
+                                'message' => strip_tags($request->request->get('contactMessage'))
+                            )
+                        ),
+                        'text/html'
+                    );
+                $mailer->send($message);
+                $this->addFlash('success', 'Votre Message à bien été envoyé.<br><strong>Merci.</strong>');
+                return $this->redirectToRoute('home');
+            }
+            $this->addFlash('danger', 'Erreur sur le captcha !');
+            return $this->redirectToRoute('contact', ["captchaSiteKey" => getenv('CAPTCHA_SITE_KEY')]);
         }
-        return $this->render('snow/contact.twig');
+        return $this->render('snow/contact.twig', ["captchaSiteKey" => getenv('CAPTCHA_SITE_KEY')]);
     }
     
     /**
@@ -70,4 +76,15 @@ class SnowController extends AbstractController
         return $this->render('snow/politique.twig');
     }
     
+
+    private function checkReCaptcha($remoteIp, $captchaResponse)
+    {
+        $secret = getenv('CAPTCHA_SECRET_KEY');
+        $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
+            . $secret
+            . "&response=" . $captchaResponse
+            . "&remoteip=" . $remoteIp ;
+        $decode = json_decode(file_get_contents($api_url), true);
+        return $decode['success'];
+    }
 }
