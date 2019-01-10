@@ -10,8 +10,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Tricks;
 use App\Entity\TrickComment;
-use App\Entity\TrickImage;
-use App\Entity\TrickVideo;
 
 use App\Form\TrickType;
 use App\Form\TrickCommentType;
@@ -48,9 +46,9 @@ class TricksController extends AbstractController
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
                 "trickCommentForm" => $form->createView(),
-                "maxComments" => TrickComment::COMMENTS_PER_PAGE,
-                "maxImages" => TrickImage::IMAGES_PER_PAGE,
-                "maxVideos" => TrickVideo::VIDEOS_PER_PAGE
+                "maxComments" => getenv('COMMENTS_PER_PAGE'),
+                "maxImages" => getenv('IMAGES_PER_PAGE'),
+                "maxVideos" => getenv('VIDEOS_PER_PAGE')
             ]);
     }
 

@@ -14,7 +14,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Tricks
 {
-    public const TRICKS_PER_PAGE = 4;
     
     /**
      * @ORM\Id()

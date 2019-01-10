@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +14,12 @@ use App\Form\UserResetPwdType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
 	/**
 	* @Route("/inscription", name="security_registration")
 	*/
-	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
 	{
 		$user = new Users();
         $form = $this->createForm(UserType::class, $user);
@@ -36,7 +35,7 @@ class SecurityController extends Controller
 
             $manager->flush();
 
-            $this->sendTokenMail($user, $token);
+            $this->sendTokenMail($user, $token, $mailer);
             $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
                                         Vous allez recevoir un email pour valider votre inscription,<br>
                                         Pensez à verfiez vos courriers indésirable,<br>
@@ -52,7 +51,7 @@ class SecurityController extends Controller
     /**
     * @Route("/ask_reset_pwd", name="ask_reset_pwd")
     */
-    public function askResetPwd(Request $request, ObjectManager $manager, UsersRepository $usersRepo)
+    public function askResetPwd(Request $request, ObjectManager $manager, UsersRepository $usersRepo, \Swift_Mailer $mailer)
     {
         if ($request->request->count() > 0) {
             $user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))]);
@@ -62,7 +61,7 @@ class SecurityController extends Controller
 
             $manager->flush();
 
-            $this->sendTokenMail($user, $token);
+            $this->sendTokenMail($user, $token, $mailer);
             $this->addFlash('success', 'Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>
                                         Vous allez recevoir un email avec un lien unique valable 2h,<br>
                                         Pensez à verfiez vos courriers indésirable,<br>
@@ -138,7 +137,7 @@ class SecurityController extends Controller
 
     }
 
-    private function sendTokenMail(Users $user, UserTokens $token)
+    private function sendTokenMail(Users $user, UserTokens $token, $mailer)
     {
         $verif = false;
         if ($token->getType() === "registration") {
@@ -170,7 +169,7 @@ class SecurityController extends Controller
             */
         ;
 
-        $this->get('mailer')->send($message);
+        $mailer->send($message);
         $verif = true;
         return $verif;
     }
