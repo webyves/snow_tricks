@@ -17,8 +17,8 @@ class SnowController extends AbstractController
     public function home(TricksRepository $trickRepo)
     {
         $nbTricks = $trickRepo->count([]);
-        $nbPages = $nbTricks / getenv('TRICKS_PER_PAGE');
-        $tricks = $trickRepo->findBy([], null, getenv('TRICKS_PER_PAGE'), 0);
+        $nbPages = $nbTricks / $this->getParameter('perpage.tricks');
+        $tricks = $trickRepo->findBy([], null, $this->getParameter('perpage.tricks'), 0);
         // findBy([], ["dateCreate"=>"DESC"],
         // attention il faudra revoir toute la pagination
 
@@ -35,10 +35,10 @@ class SnowController extends AbstractController
     public function contactForm(Request $request, \Swift_Mailer $mailer)
     {
         if ($request->request->count() > 0) {
-            if($this->checkReCaptcha($request->server->get('REMOTE_ADDR'), $request->request->get('g-recaptcha-response'))) {
+            if($this->checkReCaptcha($request->getClientIps(), $request->request->get('g-recaptcha-response'))) {
                 $message = (new \Swift_Message('SnowTricks - Formulaire de contact'))
                     ->setFrom(strip_tags($request->request->get('contactEmail')))
-                    ->setTo(getenv('ADMIN_CONTACT_EMAIL'))
+                    ->setTo($this->getParameter('admin.email'))
                     ->setBody(
                         $this->renderView(
                             'emails/contact.html.twig',
@@ -55,9 +55,9 @@ class SnowController extends AbstractController
                 return $this->redirectToRoute('home');
             }
             $this->addFlash('danger', 'Erreur sur le captcha !');
-            return $this->redirectToRoute('contact', ["captchaSiteKey" => getenv('CAPTCHA_SITE_KEY')]);
+            return $this->redirectToRoute('contact', ["captchaSiteKey" => $this->getParameter('captcha.sitekey')]);
         }
-        return $this->render('snow/contact.twig', ["captchaSiteKey" => getenv('CAPTCHA_SITE_KEY')]);
+        return $this->render('snow/contact.twig', ["captchaSiteKey" => $this->getParameter('captcha.sitekey')]);
     }
     
     /**
@@ -79,7 +79,7 @@ class SnowController extends AbstractController
 
     private function checkReCaptcha($remoteIp, $captchaResponse)
     {
-        $secret = getenv('CAPTCHA_SECRET_KEY');
+        $secret = $this->getParameter('captcha.secretkey');
         $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
             . $secret
             . "&response=" . $captchaResponse

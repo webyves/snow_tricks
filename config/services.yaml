@@ -6,8 +6,18 @@
 parameters:
     locale: 'fr'
 
-    trick_images_directory: '%kernel.project_dir%/public/uploads/trick_images'
-    user_avatar_directory: '%kernel.project_dir%/public/uploads/avatar'
+    directory.trick.images: '%kernel.project_dir%/public/uploads/trick_images'
+    directory.user.avatar: '%kernel.project_dir%/public/uploads/avatar'
+
+    captcha.sitekey: "%env(CAPTCHA_SITE_KEY)%"
+    captcha.secretkey: "%env(CAPTCHA_SECRET_KEY)%"
+
+    admin.email: "%env(ADMIN_CONTACT_EMAIL)%"
+    
+    perpage.comments: "%env(COMMENTS_PER_PAGE)%"
+    perpage.tricks: "%env(TRICKS_PER_PAGE)%"
+    perpage.images: "%env(IMAGES_PER_PAGE)%"
+    perpage.videos: "%env(VIDEOS_PER_PAGE)%"
 
 services:
     # default configuration for services in *this* file
@@ -31,7 +41,7 @@ services:
 
     App\Service\FileUploader:
         arguments:
-            $directories: {userAvatar: '%user_avatar_directory%', trickImages: '%trick_images_directory%'}
+            $directories: {userAvatar: '%directory.user.avatar%', trickImages: '%directory.trick.images%'}
 
     App\EventListener\UploadListener:
         tags:

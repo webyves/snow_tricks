@@ -1,35 +1,42 @@
 {% extends 'base.twig' %}
+{% form_theme formUserAccount 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Mon Compte{% endblock %}
 
 {% block body %}
 <h1>Mon Compte</h1>
-<form  method="post" enctype="multipart/form-data" name="user_account">
-        <div class="form-group">
-                <label for="firstName">Votre Prénom : </label>
-                <input type="text" name="firstName" class="form-control" value="{{ firstName }}" id="firstName">
-        </div>
-        <div class="form-group">
-                <label for="lastName">Votre nom de famille : </label>
-                <input type="text" name="lastName" class="form-control" value="{{ lastName }}" id="lastName">
-        </div>
-        <div class="row">
-                {% if avatar %}
-                <div class="col-sm-6">
-                        <img class="imgAvatar imgAvatarFull rounded-circle img-fluid" src="/uploads/avatar/{{ avatar }}">                        
+
+
+{{ form_start(formUserAccount, {
+        'attr': {'enctype': 'multipart/form-data'}
+        }) 
+}}
+{{ form_row(formUserAccount.firstName, {
+        'attr': {'placeholder': "prénom"},
+        'label': "changer votre prénom"
+        })
+}}
+{{ form_row(formUserAccount.lastName, {
+        'attr': {'placeholder': "nom de famille"},
+        'label': "changer votre nom de famille"
+        })
+}}
+<div class="row">
+        <div class="col">
+                <div class="form-group">
+                        <label for="avatarFile">Envoyé votre fichier<br><small class="text-muted"><em>(max 100 ko et 150x150 px conseillé) : </em></small></label>
+                        <input type="file" name="avatarFile" class="form-control-file" id="avatarFile">
                 </div>
-                {% endif %}
-                <div class="col-sm-6">
-                        <div class="form-group">
-                                <label for="avatarFile">Envoyé votre fichier<br><small class="text-muted"><em>(max 100 ko et 150x150 px) : </em></small></label>
-                                <input type="file" name="avatarFile" class="form-control-file" id="avatarFile">
-                        </div>
-                </div>
         </div>
-        <button type="submit" class="btn btn-success">
-        	Je Modifie mes infos
-        </button>
-</form>
+        <div class="col">
+        {% if app.user.avatar %}
+                <img class="imgAvatar imgAvatarFull rounded-circle img-fluid" src="/uploads/avatar/{{ app.user.avatar }}">
+        {% endif %}
+        </div>
+</div>
+<button type="submit" class="btn btn-success">Je Modifie mes infos</button>
+{{ form_end(formUserAccount) }}
+
 <h3>Changer de mot de passe ?</h3>
 <a href="{{ path('ask_reset_pwd') }}" class="btn btn-sm btn-info">Changer mon mot de passe</a>
 {% endblock %}

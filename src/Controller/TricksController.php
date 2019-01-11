@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Tricks;
@@ -20,7 +19,7 @@ class TricksController extends AbstractController
 {
 
     /**
-     * @Route("/tricks/{id}", name="show_trick")
+     * @Route("/{id}", name="show_trick")
      */
     public function showTrick(Tricks $trick, Request $request, ObjectManager $manager)
     {
@@ -46,16 +45,15 @@ class TricksController extends AbstractController
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
                 "trickCommentForm" => $form->createView(),
-                "maxComments" => getenv('COMMENTS_PER_PAGE'),
-                "maxImages" => getenv('IMAGES_PER_PAGE'),
-                "maxVideos" => getenv('VIDEOS_PER_PAGE')
+                "maxComments" =>$this->getParameter('perpage.comments'),
+                "maxImages" => $this->getParameter('perpage.images'),
+                "maxVideos" => $this->getParameter('perpage.videos')
             ]);
     }
 
     /**
-     * @Route("/add", name="add_trick")
-     * @Route("/edit/{id}", name="edit_trick")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/add", name="add_trick")
+     * @Route("/trick/edit/{id}", name="edit_trick")
      */
     public function formTricks(Tricks $trick = null, Request $request, ObjectManager $manager)
     {
@@ -92,8 +90,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_trick")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/delete/{id}", name="delete_trick")
      */
     public function deleteTrick(Tricks $trick, ObjectManager $manager)
     {

@@ -11,7 +11,9 @@ class AppExtension extends AbstractExtension
     {
         return array(
             // the logic of this filter is now implemented in a different class
-            new TwigFilter('esc_iframe', array(AppRuntime::class, 'iframeFilter')),
+            // new TwigFilter('myHTML', array(AppRuntime::class, 'myHTML')),
+            new TwigFilter('myHTML', array(AppRuntime::class, 'myHTML'), array('is_safe' => array('html'))),
+            // new \Twig_SimpleFilter('html', [$this, 'html'], ['is_safe' => ['html']]),
         );
     }
 }
