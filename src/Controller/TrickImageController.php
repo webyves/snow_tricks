@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Tricks;
@@ -15,8 +14,7 @@ use App\Form\TrickImageType;
 class TrickImageController extends AbstractController
 {
     /**
-     * @Route("/edit_image/{id}", name="edit_image_trick")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/edit_image/{id}", name="edit_image_trick")
      */
     public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager)
     {
@@ -44,8 +42,7 @@ class TrickImageController extends AbstractController
     }
 
     /**
-     * @Route("/delete_image/{id}", name="delete_trick_image")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/delete_image/{id}", name="delete_trick_image")
      */
     public function deleteTrickImage(TrickImage $trickImage, ObjectManager $manager)
     {

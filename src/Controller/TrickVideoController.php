@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Tricks;
@@ -16,8 +15,7 @@ use App\Form\TrickVideoType;
 class TrickVideoController extends AbstractController
 {
     /**
-     * @Route("/edit_video/{id}", name="edit_video_trick")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/edit_video/{id}", name="edit_video_trick")
      */
     public function formTrickVideo(Tricks $trick, Request $request, ObjectManager $manager)
     {
@@ -66,8 +64,7 @@ class TrickVideoController extends AbstractController
     }
 
     /**
-     * @Route("/delete_video/{id}", name="delete_trick_video")
-     * @IsGranted("ROLE_USER")
+     * @Route("/trick/delete_video/{id}", name="delete_trick_video")
      */
     public function deleteTrickVideo(TrickVideo $trickVideo, ObjectManager $manager)
     {
