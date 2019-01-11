@@ -14,8 +14,6 @@ class UserAccountType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('avatar')
-            // ->add('avatar', TrickImageType::class)
         ;
     }
 
