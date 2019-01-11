@@ -55,7 +55,7 @@
         </div>
         <hr>
         <h4 class=""><em>Description : </em></h4>
-        <p class="">{{ trick.content | raw }}</p>
+        <p class="">{{ trick.content| myHTML }}</p>
         <hr>
         <div class="row">
             <div class="col">
@@ -167,7 +167,7 @@
         var nbImages = {{ trick.trickImages | length }};
         var nbVideos = {{ trick.trickVideos | length }};
         var trickImagesTab = [ {% for image in trick.trickImages %}{% if not loop.first %}, {% endif %}'{{ image.link }}'{% endfor %} ];
-        var trickVideosTab = [ {% for video in trick.trickVideos %}{% if not loop.first %}, {% endif %}'{{ video.link | raw }}'{% endfor %} ];
+        var trickVideosTab = [ {% for video in trick.trickVideos %}{% if not loop.first %}, {% endif %}'{{ video.link }}'{% endfor %} ];
     </script>
     <script src="/js/trick.js"></script>
 {% endblock %}
