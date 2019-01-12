@@ -11,7 +11,7 @@
 				<section>
 				    <h2><em>Figure : </em><strong>{{ trick.name }}</strong></h2>
 				    <div class="btn-group">
-                        <a href="{{ path('show_trick', {'id': trick.id}) }}" class="btn btn-secondary"><em class="far fa-eye"></em></a>
+                        <a href="{{ path('show_trick', {'slug': trick.slug}) }}" class="btn btn-secondary"><em class="far fa-eye"></em></a>
 			            <a href="{{ path('edit_image_trick', {'id': trick.id}) }}" class="btn btn-info"><em class="far fa-image"></em></a>
                         <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="btn btn-warning"><em class="fas fa-pencil-alt"></em></a>
 				    </div>

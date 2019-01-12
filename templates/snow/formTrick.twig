@@ -16,9 +16,13 @@
     {% if app.user %}
 		<section>
 			{{ form_start(formTrick) }}
-			{{ form_row(formTrick.name, {
-	                        'attr': {'placeholder': "Nom de la figure"},
-	                        'label': "Nom de la figure"}) }}
+			{% if trick.id is null %}
+				{{ form_row(formTrick.name, {
+		                        'attr': {'placeholder': "Nom de la figure"},
+		                        'label': "Nom de la figure"}) }}
+	        {% else %}
+                <h3><a href="{{ path('show_trick', {'slug': trick.slug}) }}">{{ trick.name }}</a></h3>
+            {% endif %}
 			{{ form_row(formTrick.trickGroup, {
 	                        'label': "Groupe de figure"}) }}
 			{{ form_row(formTrick.content, {
