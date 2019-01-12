@@ -58,7 +58,8 @@ class TricksController extends AbstractController
             $trick->setDateCreate(new \DateTime())
                   ->setUserCreate($this->getUser())
                   ->setDateUpdate(new \DateTime())
-                  ->setUserUpdate($this->getUser());
+                  ->setUserUpdate($this->getUser())
+                  ->setSlug($trick->getName());
 
             $manager->persist($trick);
             $manager->flush();
