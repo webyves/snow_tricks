@@ -110,5 +110,4 @@ class UserTokens
 
         return $this;
     }
-
 }
