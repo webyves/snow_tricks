@@ -2,7 +2,7 @@
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}
-	{{ editMode ? "modifier" : "ajouter" }} figure
+	{{ (trick.id is not null) ? "Modifier" : "Ajouter" }} figure
 {% endblock %}
 
 {% block stylesheets %}
@@ -11,7 +11,7 @@
 
 {% block body %}
 	<h1>
-		{{ editMode ? "modifier" : "ajouter" }} une figure
+		{{ (trick.id is not null) ? "Modifier" : "Ajouter" }} une figure
 	</h1>
     {% if app.user %}
 		<section>
@@ -25,12 +25,11 @@
 	                        'attr': {'placeholder': "Votre Texte sur la figure", 'class': "summernote"},
 	                        'label': "Description de la figure"}) }}
 			<button type="submit" class="btn btn-success">
-				{{ editMode ? "modifier" : "ajouter" }} la figure
+				{{ (trick.id is not null) ? "Modifier" : "Ajouter" }} la figure
 			</button>
 			{{ form_end(formTrick) }}
 		</section>
-		{% if editMode %}
-		{# if tricks.id is defined #}
+		{% if trick.id is not null %}
 			<hr>
 			<section>
 				<h3>Actuellement {{ trick.trickImages | length }} Photos</h3>

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
 use App\Entity\Users;
@@ -19,7 +19,7 @@ class SecurityController extends AbstractController
 	/**
 	* @Route("/inscription", name="security_registration")
 	*/
-	public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
+	public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
 	{
 		$user = new Users();
         $form = $this->createForm(UserType::class, $user);
@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
     /**
     * @Route("/ask_reset_pwd", name="ask_reset_pwd")
     */
-    public function askResetPwd(Request $request, ObjectManager $manager, UsersRepository $usersRepo, \Swift_Mailer $mailer)
+    public function askResetPwd(Request $request, EntityManagerInterface $manager, UsersRepository $usersRepo, \Swift_Mailer $mailer)
     {
         if ($request->request->count() > 0) {
             $user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))]);
@@ -77,7 +77,7 @@ class SecurityController extends AbstractController
     /**
     * @Route("/token/{value}", name="security_token")
     */
-    public function checkToken(UserTokens $token, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function checkToken(UserTokens $token, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
         if ($token->getdateToken() > new \DateTime()) {
             if ($token->getType() === "registration") {
@@ -156,19 +156,7 @@ class SecurityController extends AbstractController
                     array('user' => $user, 'token' => $token)
                 ),
                 'text/html'
-            )
-            /*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-
+            );
         $mailer->send($message);
         $verif = true;
         return $verif;

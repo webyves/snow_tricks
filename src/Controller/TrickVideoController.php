@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Tricks;
 use App\Entity\TrickVideo;
@@ -17,7 +17,7 @@ class TrickVideoController extends AbstractController
     /**
      * @Route("/trick/edit_video/{id}", name="edit_video_trick")
      */
-    public function formTrickVideo(Tricks $trick, Request $request, ObjectManager $manager)
+    public function formTrickVideo(Tricks $trick, Request $request, EntityManagerInterface $manager)
     {
         $trickVideos = $trick->getTrickVideos();
 
@@ -66,7 +66,7 @@ class TrickVideoController extends AbstractController
     /**
      * @Route("/trick/delete_video/{id}", name="delete_trick_video")
      */
-    public function deleteTrickVideo(TrickVideo $trickVideo, ObjectManager $manager)
+    public function deleteTrickVideo(TrickVideo $trickVideo, EntityManagerInterface $manager)
     {
         $trick = $trickVideo->getTrick();
         $manager->remove($trickVideo);

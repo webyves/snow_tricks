@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserAccountType;
 use App\Service\FileUploader;
 
@@ -15,7 +15,7 @@ class UsersController extends AbstractController
     /**
      * @Route("/user/account", name="account")
      */
-    public function userAccount(Request $request, ObjectManager $manager, FileUploader $uploader)
+    public function userAccount(Request $request, EntityManagerInterface $manager, FileUploader $uploader)
     {
         $user = $this->getUser(); 
         $avatar = $user->getAvatar();
