@@ -19,7 +19,7 @@ class TricksController extends AbstractController
 {
 
     /**
-     * @Route("/{id}", name="show_trick")
+     * @Route("/{slug}", name="show_trick")
      */
     public function showTrick(Tricks $trick, Request $request, EntityManagerInterface $manager)
     {
@@ -35,7 +35,7 @@ class TricksController extends AbstractController
             $manager->persist($trickComment);
             $manager->flush();
             $this->addFlash('success', 'Votre commentaire à bien été ajouté,<br><strong>Merci</strong>.');
-            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
@@ -63,7 +63,7 @@ class TricksController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
             $this->addFlash('success', 'Votre Figure à bien été ajoutée,<br><strong>Merci</strong>.');
-            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('snow/formTrick.twig', [
@@ -86,7 +86,7 @@ class TricksController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
             $this->addFlash('success', 'Votre Figure à bien été modifiée,<br><strong>Merci</strong>.');
-            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('snow/formTrick.twig', [
