@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Tricks;
 use App\Entity\TrickImage;
@@ -16,7 +16,7 @@ class TrickImageController extends AbstractController
     /**
      * @Route("/trick/edit_image/{id}", name="edit_image_trick")
      */
-    public function formTrickImage(Tricks $trick, Request $request, ObjectManager $manager)
+    public function formTrickImage(Tricks $trick, Request $request, EntityManagerInterface $manager)
     {
         $trickImages = $trick->getTrickImages();
 
@@ -44,7 +44,7 @@ class TrickImageController extends AbstractController
     /**
      * @Route("/trick/delete_image/{id}", name="delete_trick_image")
      */
-    public function deleteTrickImage(TrickImage $trickImage, ObjectManager $manager)
+    public function deleteTrickImage(TrickImage $trickImage, EntityManagerInterface $manager)
     {
         $trick = $trickImage->getTrick();
         $manager->remove($trickImage);

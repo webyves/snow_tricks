@@ -15,16 +15,6 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof Users) {
             return;
         }
-
-        // user is deleted, show a generic Account Not Found message.
-        // if ($user->isDeleted()) {
-        //     throw new AccountDeletedException('...');
-
-            // or to customize the message shown
-            // throw new CustomUserMessageAuthenticationException(
-            //     'Your account was deleted. Sorry about that!'
-            // );
-        // }
         if (!$user->getValid()) {
             throw new CustomUserMessageAuthenticationException(
                 'Votre incription n\'a pas encore été validée,<br>
@@ -40,10 +30,5 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof Users) {
             return;
         }
-
-        // user account is expired, the user may be notified
-        // if ($user->isExpired()) {
-        //     throw new AccountExpiredException('...');
-        // }
     }
 }

@@ -21,14 +21,6 @@ class UploadListener
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        // retirer l'ancien avatar
-        // if ($entity instanceof Users) {
-        //     if ($fileName = $entity->getAvatar()) {
-        //         $entity->setAvatar($this->uploader->getDirectory("userAvatar").'/'.$fileName);
-        //         $this->removeFile($entity);
-        //     }
-        // }
-        
         $this->uploadFile($entity);
     }
 
@@ -50,10 +42,6 @@ class UploadListener
             $file = $entity->getLink();
             $fileName = $this->uploader->upload($file, "trickImages");
             $entity->setLink($fileName);
-        // } elseif ($entity instanceof Users) {
-        //     $file = $entity->getAvatar();
-        //     $fileName = $this->uploader->upload($file, "userAvatar");
-        //     $entity->setAvatar($fileName);
         }
 
     }
@@ -63,9 +51,6 @@ class UploadListener
         if ($entity instanceof TrickImage) {
             $filename = $entity->getLink();
             $this->uploader->removeFile($filename, "trickImages");
-        // } elseif ($entity instanceof Users) {
-        //     $filename = $entity->getAvatar();
-             // $this->uploader->removeFile($filename, "userAvatar");
        }
         
     }
