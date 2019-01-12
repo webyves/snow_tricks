@@ -29,11 +29,10 @@ class UploadListener
         $entity = $args->getEntity();
 
         if ($entity instanceof TrickImage) {
-            if ($fileName = $entity->getLink()) {
+            if ($entity->getLink()) {
                 $this->removeFile($entity);
             }
         }
-
     }
 
     private function uploadFile($entity)
@@ -43,7 +42,6 @@ class UploadListener
             $fileName = $this->uploader->upload($file, "trickImages");
             $entity->setLink($fileName);
         }
-
     }
 
     private function removeFile($entity)
@@ -51,7 +49,6 @@ class UploadListener
         if ($entity instanceof TrickImage) {
             $filename = $entity->getLink();
             $this->uploader->removeFile($filename, "trickImages");
-       }
-        
+        }
     }
 }

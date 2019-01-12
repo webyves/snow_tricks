@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class FileUploader
 {
-    private $directories; 
+    private $directories;
 
     public function __construct($directories)
     {
@@ -28,7 +28,8 @@ class FileUploader
         return $fileName;
     }
 
-    public function removeFile($fileName, $directory){
+    public function removeFile($fileName, $directory)
+    {
         $completeFileName = $this->getDirectory($directory) . '/' . $fileName;
         $filesystem = new Filesystem();
         $filesystem->remove($completeFileName);
