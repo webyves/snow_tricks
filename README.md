@@ -15,7 +15,21 @@ Projet 6 du parcours DA PHP/Symfony de OpenClassrooms
 	- DB_MySQL_Demo.sql est une base de donnée avec un jeu de demo
 3) faites pointer votre domaine (ou sous-domaine multisite) sur le dossier {VOTRE_DOSSIER_DE_PROJET}/public
 4) Mettre a jour le fichier .env.local (situé a la racine) sur les lignes suivantes :
-	- DATABASE_URL=mysql://db_login:db_password@db_server/db_name
-	- MAILER_URL=null://localhost
+	- DB_HOST={VOTRE_SERVEUR_DATABASE}
+	- DB_NAME={NOM_DE_VOTRE_DATABASE}
+	- DB_USER={VOTRE_NOM_UTILISATEUR_DATABASE}
+	- DB_PASSWORD={VOTRE_MOT_PASSE_DATABASE}
+
+	- EMAIL_URL={VOTRE_SERVEUR_EMAIL}
+	- EMAIL_PORT={VOTRE_PORT_DE_SERVEUR_EMAIL}  465 pour le SSL
+	- EMAIL_ENCRYPTION={VOTRE_TYPE_DE_SECURITE_EMAIL}  SSL est le plus repandu
+	- EMAIL_MODE={VOTRE_METHODE_CONNEXION_EMAIL}  login est le plus repandu
+	- EMAIL_USERNAME={VOTRE_NOM_UTILISATEUR_EMAIL}
+	- EMAIL_PASSWORD={VOTRE_MOT_PASSE_EMAIL}
+
+	- ADMIN_CONTACT_EMAIL={EMAIL_DE_VOTRE_ADMINISTRATEUR}
+
+	- CAPTCHA_SITE_KEY={VOTRE_CLEF_SITE_RECAPTCHA}
+	- CAPTCHA_SECRET_KEY={VOTRE_CLEF_SECRETE_RECAPTCHA}
 
 # Patch Notes
