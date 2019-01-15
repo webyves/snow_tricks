@@ -1,4 +1,6 @@
 {
+    "name": "ybernier/snow-tricks",
+    "description": "OC6 Project snowtricks website",
     "type": "project",
     "license": "proprietary",
     "require": {
