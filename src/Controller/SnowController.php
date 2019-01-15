@@ -18,9 +18,7 @@ class SnowController extends AbstractController
     {
         $nbTricks = $trickRepo->count([]);
         $nbPages = $nbTricks / $this->getParameter('perpage.tricks');
-        $tricks = $trickRepo->findBy([], null, $this->getParameter('perpage.tricks'), 0);
-        // findBy([], ["dateCreate"=>"DESC"],
-        // attention il faudra revoir toute la pagination
+        $tricks = $trickRepo->findBy([], ["dateCreate"=>"DESC"], $this->getParameter('perpage.tricks'), 0);
 
         return $this->render('snow/home.twig', [
                 "tricks" => $tricks,
