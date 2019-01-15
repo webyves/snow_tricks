@@ -39,7 +39,7 @@ class AjaxController extends AbstractController
         if ($req->isXMLHttpRequest() ) {
         	$trickid = $req->request->get("trickid");
 	        $offset = ($pageNb * $this->getParameter('perpage.comments'));
-	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], null, $this->getParameter('perpage.comments'), $offset);
+	        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trickid], ["dateCreate"=>"DESC"], $this->getParameter('perpage.comments'), $offset);
 	        $nbPages = ($TrickCommentRepo->count(["trick"=>$trickid]) / $this->getParameter('perpage.comments')) - $pageNb;
 	        $pageNb++;
 	        return $this->render('ajax/ajaxCommentsList.twig', [

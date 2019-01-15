@@ -14,6 +14,7 @@ use App\Form\TrickType;
 use App\Form\TrickCommentType;
 
 use App\Repository\TricksRepository;
+use App\Repository\TrickCommentRepository;
 
 class TricksController extends AbstractController
 {
@@ -21,8 +22,10 @@ class TricksController extends AbstractController
     /**
      * @Route("/{slug}", name="show_trick")
      */
-    public function showTrick(Tricks $trick, Request $request, EntityManagerInterface $manager)
+    public function showTrick(Tricks $trick, Request $request, EntityManagerInterface $manager, TrickCommentRepository $TrickCommentRepo)
     {
+        $trickComments = $TrickCommentRepo->findBy(["trick"=>$trick->getId()], ["dateCreate"=>"DESC"], $this->getParameter('perpage.comments'), 0);
+
         $trickComment = new TrickComment();
         $form = $this->createForm(TrickCommentType::class, $trickComment);
         $form->handleRequest($request);
@@ -39,6 +42,7 @@ class TricksController extends AbstractController
         }
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
+                "trickComments" => $trickComments,
                 "trickCommentForm" => $form->createView(),
                 "maxComments" =>$this->getParameter('perpage.comments'),
                 "maxImages" => $this->getParameter('perpage.images'),
