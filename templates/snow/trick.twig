@@ -84,6 +84,8 @@
         var trickId = {{ trick.id }};
         var nbImages = {{ trick.trickImages | length }};
         var nbVideos = {{ trick.trickVideos | length }};
+        var trickImagesTab = {{ trickImageTabVarJS | myHTML }};
+        var trickVideosTab = {{ trickVideoTabVarJS | myHTML }};
     </script>
     <script src="/js/trick.js"></script>
 {% endblock %}

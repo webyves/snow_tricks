@@ -40,13 +40,34 @@ class TricksController extends AbstractController
             $this->addFlash('success', 'Votre commentaire à bien été ajouté,<br><strong>Merci</strong>.');
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
+
+        $trickImageTabVarJS = "";
+        foreach ($trick->getTrickImages() as $item) {
+            if (!empty($trickImageTabVarJS)) {
+                $trickImageTabVarJS .= ', ';
+            }
+            $trickImageTabVarJS .= "'".$item->getLink()."'";
+        }
+        $trickImageTabVarJS = '[ ' . $trickImageTabVarJS . ' ]';
+
+        $trickVideoTabVarJS = "";
+        foreach ($trick->getTrickVideos() as $item) {
+            if (!empty($trickVideoTabVarJS)) {
+                $trickVideoTabVarJS .= ', ';
+            }
+            $trickVideoTabVarJS .= "'".$item->getLink()."'";
+        }
+        $trickVideoTabVarJS = '[ ' . $trickVideoTabVarJS . ' ]';
+
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,
                 "trickComments" => $trickComments,
                 "trickCommentForm" => $form->createView(),
                 "maxComments" =>$this->getParameter('perpage.comments'),
                 "maxImages" => $this->getParameter('perpage.images'),
-                "maxVideos" => $this->getParameter('perpage.videos')
+                "maxVideos" => $this->getParameter('perpage.videos'),
+                "trickImageTabVarJS" => $trickImageTabVarJS,
+                "trickVideoTabVarJS" => $trickVideoTabVarJS                
             ]);
     }
 
