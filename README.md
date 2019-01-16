@@ -4,6 +4,7 @@ Projet 6 du parcours DA PHP/Symfony de OpenClassrooms
 - lien fichier Git : https://github.com/webyves/snow_tricks
 
 # Code Validation
+- [![SymfonyInsight](https://insight.symfony.com/projects/942fd9bd-7bb3-4aa6-a49f-ba6fa6f30daa/big.svg)](https://insight.symfony.com/projects/942fd9bd-7bb3-4aa6-a49f-ba6fa6f30daa)
 - [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1d986f543c544eba452b27d071c1eae)](https://www.codacy.com/app/webyves/snow_tricks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webyves/snow_tricks&amp;utm_campaign=Badge_Grade)
 - liens vers analyse Codacy : https://app.codacy.com/project/webyves/snow_tricks/dashboard
 
