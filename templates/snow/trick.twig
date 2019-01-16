@@ -27,30 +27,7 @@
                 </div>
             </div>
             <div class="col-sm-2">
-                <div class="row">
-                    <div class="col text-center">
-                        <h6>{{ trick.trickImages | length }} Photos</h6>
-                    </div>
-                </div>
-                {% if trick.trickImages | length > maxImages %} 
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="-1" data-dir="prev" id="btnImgPrev"><em class="fas fa-chevron-circle-up"></em></button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_images_list" data-loadimage="{{ maxImages }}" data-dir="next" id="btnImgNext"><em class="fas fa-chevron-circle-down"></em></button>
-                    </div>
-                </div>
-                <hr>
-                {% endif %}
-                {% for trickImage in trick.trickImages | slice(0, maxImages) %}
-                <div class="row">
-                    <div class="col">
-                        <img src="{{ asset('uploads/trick_images/' ~ trickImage.link) }}" class="img-fluid rounded imgClickable" id="imgClickable_{{ loop.index }}">
-                    </div>
-                </div>
-                {% if loop.index < maxImages %}<hr>{% endif %}
-                {% endfor %}
+                {% include 'snow/trickPartImg.twig' %}
             </div>
         </div>
         <hr>
@@ -80,29 +57,7 @@
             {% endif %}
         </div>
         <hr>
-        <div class="row">
-            <div class="col">
-                <h6>{{ trick.trickVideos | length}} Videos</h6>                
-            </div>
-        </div>
-        {% if trick.trickVideos | length > maxVideos %} 
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="-1" data-dir="prev" id="btnVidPrev"><em class="fas fa-chevron-circle-left"></em></button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="{{ maxVideos }}" data-dir="next" id="btnVidNext"><em class="fas fa-chevron-circle-right"></em></button>
-            </div>
-        </div>
-        <hr>
-        {% endif %}
-        <div class="row">
-            {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
-            <div class="col-4">
-                <embed src="{{ trickVideo.link }}" id="divVideo_{{ loop.index }}"></embed>
-            </div>
-            {% endfor %}
-        </div>
+        {% include 'snow/trickPartVideo.twig' %}
     </div>
 </div>
 <hr>
@@ -121,44 +76,7 @@
 <hr>
 {% endif %}
 <h2>{{ trick.trickComments | length }} Commentaires</h2>
-<div class="row">
-    <div class="col">
-        {% for comment in trickComments %}
-        <div class="row trickComment">
-            <div class="col-sm-2 trickCommentGauche text-center">
-                {% if comment.userCreate.avatar %}
-                    <img class="imgAvatar imgAvatarComment rounded-circle img-fluid" src="/uploads/avatar/{{ comment.userCreate.avatar }}" title="{{ comment.userCreate.userName }}">
-                {% else %}
-                    <span class="txtAvatar">{{ comment.userCreate.userName }}</span>
-                {% endif %}
-            </div>
-            <div class="col trickCommentDroite">
-                <div class="row">
-                    <div class="col">
-                        <p>{{ comment.text }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <h6 class="text-muted">Ecrit le : {{ comment.dateCreate | date('d-m-Y : H:i') }}</h6>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-<hr>
-{% if trick.trickComments | length > maxComments %}
-<div class="ajax_comments_list">
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-block btn-secondary btn_action_ajax_comments_list" data-trickid="{{ trick.id }}" data-pagenb="1">Plus de Commentaires</button>
-        </div>
-    </div>
-</div>
-<hr>
-{% endif %}
+{% include 'snow/trickPartComment.twig' %}
 {% endblock %}
 
 {% block javascripts %}

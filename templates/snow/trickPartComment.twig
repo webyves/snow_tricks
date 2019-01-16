@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col">
+        {% for comment in trickComments %}
+        <div class="row trickComment">
+            <div class="col-sm-2 trickCommentGauche text-center">
+                {% if comment.userCreate.avatar %}
+                    <img class="imgAvatar imgAvatarComment rounded-circle img-fluid" src="/uploads/avatar/{{ comment.userCreate.avatar }}" title="{{ comment.userCreate.userName }}">
+                {% else %}
+                    <span class="txtAvatar">{{ comment.userCreate.userName }}</span>
+                {% endif %}
+            </div>
+            <div class="col trickCommentDroite">
+                <div class="row">
+                    <div class="col">
+                        <p>{{ comment.text }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="text-muted">Ecrit le : {{ comment.dateCreate | date('d-m-Y : H:i') }}</h6>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<hr>
+{% if trick.trickComments | length > maxComments %}
+<div class="ajax_comments_list">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-block btn-secondary btn_action_ajax_comments_list" data-trickid="{{ trick.id }}" data-pagenb="1">Plus de Commentaires</button>
+        </div>
+    </div>
+</div>
+<hr>
+{% endif %}
