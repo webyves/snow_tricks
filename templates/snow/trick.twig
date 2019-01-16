@@ -80,5 +80,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        var trickId = {{ trick.id }};
+        var nbImages = {{ trick.trickImages | length }};
+        var nbVideos = {{ trick.trickVideos | length }};
+    </script>
     <script src="/js/trick.js"></script>
 {% endblock %}
