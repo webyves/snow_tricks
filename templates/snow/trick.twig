@@ -27,7 +27,6 @@
                 </div>
             </div>
             <div class="col-sm-2">
-                {% include 'snow/trickPartImg.twig' %}
             </div>
         </div>
         <hr>
@@ -57,7 +56,6 @@
             {% endif %}
         </div>
         <hr>
-        {% include 'snow/trickPartVideo.twig' %}
     </div>
 </div>
 <hr>
@@ -76,7 +74,6 @@
 <hr>
 {% endif %}
 <h2>{{ trick.trickComments | length }} Commentaires</h2>
-{% include 'snow/trickPartComment.twig' %}
 {% endblock %}
 
 {% block javascripts %}
