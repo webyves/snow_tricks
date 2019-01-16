@@ -99,7 +99,7 @@
         <div class="row">
             {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
             <div class="col-4">
-                <embed type="video/webm" src="{{ trickVideo.link }}" id="divVideo_{{ loop.index }}"></embed>
+                <embed src="{{ trickVideo.link }}" id="divVideo_"></embed>
             </div>
             {% endfor %}
         </div>
