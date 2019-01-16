@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <h6>{{ trick.trickVideos | length}} Videos</h6>                
+    </div>
+</div>
+{% if trick.trickVideos | length > maxVideos %} 
+<div class="row">
+    <div class="col">
+        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="-1" data-dir="prev" id="btnVidPrev"><em class="fas fa-chevron-circle-left"></em></button>
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-block btn-sm btn-secondary btn_action_videos_list" data-loadvideo="{{ maxVideos }}" data-dir="next" id="btnVidNext"><em class="fas fa-chevron-circle-right"></em></button>
+    </div>
+</div>
+<hr>
+{% endif %}
+<div class="row">
+    {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
+    <div class="col-4">
+        <embed src="{{ trickVideo.link }}" id="divVideo_{{ loop.index }}"></embed>
+    </div>
+    {% endfor %}
+</div>
