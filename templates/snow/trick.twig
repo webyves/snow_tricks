@@ -27,6 +27,7 @@
                 </div>
             </div>
             <div class="col-sm-2">
+                {% include 'snow/trickPartImg.twig' %}
             </div>
         </div>
         <hr>
@@ -56,6 +57,7 @@
             {% endif %}
         </div>
         <hr>
+        {% include 'snow/trickPartVideo.twig' %}
     </div>
 </div>
 <hr>
@@ -74,15 +76,9 @@
 <hr>
 {% endif %}
 <h2>{{ trick.trickComments | length }} Commentaires</h2>
+{% include 'snow/trickPartComment.twig' %}
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        var trickId = {{ trick.id }};
-        var nbImages = {{ trick.trickImages | length }};
-        var nbVideos = {{ trick.trickVideos | length }};
-        var trickImagesTab = [ {% for image in trick.trickImages %}{% if not loop.first %}, {% endif %}'{{ image.link }}'{% endfor %} ];
-        var trickVideosTab = [ {% for video in trick.trickVideos %}{% if not loop.first %}, {% endif %}'{{ video.link }}'{% endfor %} ];
-    </script>
     <script src="/js/trick.js"></script>
 {% endblock %}
