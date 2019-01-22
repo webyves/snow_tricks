@@ -32,7 +32,7 @@ class UsersController extends AbstractController
             $user->setAvatar($avatar);
             $manager->persist($user);
             $manager->flush();
-            $this->addFlash('success', 'Vos modifiations ont bien été pises en compte,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'useraccount.ok.modif');
             return $this->redirectToRoute("account");
         }
         return $this->render('users/account.twig', ['formUserAccount' => $formUserAccount->createView()]);

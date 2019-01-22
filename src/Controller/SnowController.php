@@ -38,10 +38,10 @@ class SnowController extends AbstractController
         if ($request->request->count() > 0) {
             if(ReCpatchaV2::checkValue($request, $this->getParameter('captcha.secretkey'))) {
                 $emailService->sendContact($request, $this->getParameter('admin.email'));
-                $this->addFlash('success', 'Votre Message à bien été envoyé.<br><strong>Merci.</strong>');
+                $this->addFlash('success', 'contact.ok');
                 return $this->redirectToRoute('home');
             }
-            $this->addFlash('danger', 'Erreur sur le captcha !');
+            $this->addFlash('danger', 'contact.err.captcha');
             return $this->redirectToRoute('contact', ["captchaSiteKey" => $this->getParameter('captcha.sitekey')]);
         }
         return $this->render('snow/contact.twig', ["captchaSiteKey" => $this->getParameter('captcha.sitekey')]);

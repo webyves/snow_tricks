@@ -34,16 +34,7 @@ class TrickVideoController extends AbstractController
                 $trickVideoUrl = $matches[1];
             }
             if(!$trickVideoUrl) {
-                $this->addFlash('danger', '<strong>Erreur de saisie !</strong><br>
-                                            Votre liens n\'est pas un lien youtube ou dailymotion correct,<br>
-                                            Merci de respecter : 
-                                            <hr>
-                                            L\'exemple suivant :<br>
-                                            https://www.youtube.com/embed/xyz123
-                                            <hr>
-                                            Ou recopier le code fournis par la plateforme dans :<br> 
-                                            partager -> video integrée
-                                            ');
+                $this->addFlash('danger', 'videos.err.link');
                 return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
             }
 
@@ -51,7 +42,7 @@ class TrickVideoController extends AbstractController
                        ->setLink($trickVideoUrl);
             $manager->persist($trickVideo);
             $manager->flush();
-            $this->addFlash('success', 'Votre lien Video à bien été ajouté,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'videos.ok.add');
             return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
         }
                     
@@ -71,7 +62,7 @@ class TrickVideoController extends AbstractController
         $idTrick = $trickVideo->getTrick()->getId();
         $manager->remove($trickVideo);
         $manager->flush();
-        $this->addFlash('success', 'Le lien video à bien été supprimé,<br><strong>Merci</strong>.');
+        $this->addFlash('success', 'videos.ok.delete');
         return $this->redirectToRoute('edit_video_trick', ['id' => $idTrick]);
     }
     

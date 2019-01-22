@@ -37,10 +37,7 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
-            $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
-                                        Vous allez recevoir un email pour valider votre inscription,<br>
-                                        Pensez à verfiez vos courriers indésirable,<br>
-                                        <strong>Merci</strong>.');
+            $this->addFlash('success', 'register.ok.ask');
             return $this->redirectToRoute("security_login");
 
         }
@@ -62,10 +59,7 @@ class SecurityController extends AbstractController
 
             $manager->flush();
             $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
-            $this->addFlash('success', 'Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>
-                                        Vous allez recevoir un email avec un lien unique valable 2h,<br>
-                                        Pensez à verfiez vos courriers indésirable,<br>
-                                        <strong>Merci</strong>.');
+            $this->addFlash('success', 'reset.ok.ask');
             return $this->redirectToRoute("home");
 
         }
@@ -91,13 +85,13 @@ class SecurityController extends AbstractController
 
                 $manager->flush();
 
-                $this->addFlash('success', 'Votre incription a bien été validé,<br><strong>Merci</strong>.');
+                $this->addFlash('success', 'register.ok.token');
                 return $this->redirectToRoute('security_login');
             }            
-            $this->addFlash('danger', 'Erreur sur le type de token invoqué,<br><strong>Merci de recommencé la procédure</strong>.');
+            $this->addFlash('danger', 'register.err.token.type');
             return $this->redirectToRoute('home');
         }
-        $this->addFlash('danger', 'Vous avez depassé le delai le delai de votre inscription qui etait de 14 jours,<br><strong>Merci de recommencé la procédure ou de contacter un administrateur</strong>.');
+        $this->addFlash('danger', 'register.err.token.timer');
         return $this->redirectToRoute('home');
     }
 
@@ -121,15 +115,15 @@ class SecurityController extends AbstractController
                     $manager->persist($token);
 
                     $manager->flush();
-                    $this->addFlash('success', 'Votre à bien été reinitialisé.');
+                    $this->addFlash('success', 'reset.ok.token');
                     return $this->redirectToRoute('security_login');
                 }
                 return $this->render('security/token_reset_pwd.twig', ['formResetPwd' => $form->createView()]);
             }            
-            $this->addFlash('danger', 'Erreur sur le type de token invoqué,<br><strong>Merci de recommencé la procédure</strong>.');
+            $this->addFlash('danger', 'reset.err.token.type');
             return $this->redirectToRoute('home');
         }
-        $this->addFlash('danger', 'Vous avez depassé le delai pour votre reinitilaisation de mot de passe qui etait de 2h,<br><strong>Merci de recommencé la procédure</strong>.');
+        $this->addFlash('danger', 'reset.err.token.timer');
         return $this->redirectToRoute('home');
     }
 

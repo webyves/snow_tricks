@@ -29,7 +29,7 @@ class TrickImageController extends AbstractController
 
             $manager->persist($trickImage);
             $manager->flush();
-            $this->addFlash('success', 'L\'image à bien été Ajoutée,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'images.ok.add');
             return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
         }
                     
@@ -49,7 +49,7 @@ class TrickImageController extends AbstractController
         $trick = $trickImage->getTrick();
         $manager->remove($trickImage);
         $manager->flush();
-        $this->addFlash('success', 'L\'image à bien été supprimé,<br><strong>Merci</strong>.');
+        $this->addFlash('success', 'images.ok.delete');
         return $this->redirectToRoute('edit_image_trick', ['id' => $trick->getId()]);
     }
     
