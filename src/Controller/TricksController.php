@@ -39,7 +39,7 @@ class TricksController extends AbstractController
 
             $manager->persist($trickComment);
             $manager->flush();
-            $this->addFlash('success', 'Votre commentaire à bien été ajouté,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'comments.ok.add');
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -75,7 +75,7 @@ class TricksController extends AbstractController
 
             $manager->persist($trick);
             $manager->flush();
-            $this->addFlash('success', 'Votre Figure à bien été ajoutée,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'tricks.ok.add');
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -98,7 +98,7 @@ class TricksController extends AbstractController
 
             $manager->persist($trick);
             $manager->flush();
-            $this->addFlash('success', 'Votre Figure à bien été modifiée,<br><strong>Merci</strong>.');
+            $this->addFlash('success', 'tricks.ok.update');
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -115,7 +115,7 @@ class TricksController extends AbstractController
     {
         $manager->remove($trick);
         $manager->flush();
-        $this->addFlash('success', 'Votre figure à bien été supprimée,<br><strong>Merci</strong>.');
+        $this->addFlash('success', 'tricks.ok.delete');
         return $this->redirectToRoute('home');
     }
     

@@ -1,0 +1,49 @@
+contact:
+  ok: Votre Message à bien été envoyé.<br><strong>Merci.</strong>
+  err: 
+    captcha: Erreur sur le captcha !<br>Veuillez recommencer votre message.<br><strong>Merci.</strong>
+
+register:
+  ok: 
+    ask: Votre incription a bien été prise en compte,<br>Vous allez recevoir un email pour valider votre inscription,<br>Pensez à verfiez vos courriers indésirable,<br><strong>Merci</strong>.
+    token: Votre incription a bien été validé,<br><strong>Merci</strong>.
+  err:
+    token:
+      type: Erreur sur le type de token invoqué,<br><strong>Verifiez votre lien ou contacter un administrateur</strong>.
+      timer: Vous avez depassé le delai le delai de votre inscription qui etait de 14 jours,<br><strong>Merci de contacter un administrateur</strong>.
+
+reset:
+  ok:
+    ask: Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>Vous allez recevoir un email avec un lien unique valable 2h,<br>Pensez à verfiez vos courriers indésirable,<br><strong>Merci</strong>.
+    token: Votre Mot de passe à bien été reinitialisé.
+  err:
+    token:
+      type: Erreur sur le type de token invoqué,<br><strong>Verifiez votre lien ou contacter un administrateur</strong>.
+      timer: Vous avez depassé le delai pour votre reinitilaisation de mot de passe qui etait de 2h,<br><strong>Merci de recommencé la procédure</strong>.
+
+images:
+  ok:
+    add: L'image à bien été Ajoutée,<br><strong>Merci</strong>.
+    delete: L'image à bien été supprimée,<br><strong>Merci</strong>.
+
+videos:
+  ok:
+    add: Votre lien Video à bien été ajouté,<br><strong>Merci</strong>.
+    delete: Le lien video à bien été supprimé,<br><strong>Merci</strong>.
+  err:
+    link: <strong>Erreur de saisie !</strong><br>Votre lien n'est pas un lien YouTube ou DailyMotion correct, merci de respecter les consignes suivante :<hr>Saisissez une adresse suivant l'exemple :<br>https://www.youtube.com/embed/xyz123<hr>Ou recopier le code fournis par la plateforme dans :<br>partager -> video integrée
+
+useraccount:
+  ok:
+    modif: Vos modifiations ont bien été pises en compte,<br><strong>Merci</strong>.
+
+comments:
+  ok:
+    add: Votre commentaire à bien été ajouté,<br><strong>Merci</strong>.
+
+tricks:
+  ok:
+    add: Votre Figure à bien été ajoutée,<br><strong>Merci</strong>.
+    update: Votre Figure à bien été modifiée,<br><strong>Merci</strong>.
+    delete: Votre figure à bien été supprimée,<br><strong>Merci</strong>.
+
