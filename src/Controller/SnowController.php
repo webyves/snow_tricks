@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Repository\TricksRepository;
 
+use App\Service\ReCpatchaV2;
+use App\Service\SnowTricksEmails;
+
 class SnowController extends AbstractController
 {
 
@@ -30,25 +33,11 @@ class SnowController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contactForm(Request $request, \Swift_Mailer $mailer)
+    public function contactForm(Request $request, SnowTricksEmails $emailService)
     {
         if ($request->request->count() > 0) {
-            if($this->checkReCaptcha($request->getClientIps(), $request->request->get('g-recaptcha-response'))) {
-                $message = (new \Swift_Message('SnowTricks - Formulaire de contact'))
-                    ->setFrom(strip_tags($request->request->get('contactEmail')))
-                    ->setTo($this->getParameter('admin.email'))
-                    ->setBody(
-                        $this->renderView(
-                            'emails/contact.html.twig',
-                            array(
-                                'name' => strip_tags($request->request->get('contactFirstname')) . " " . strip_tags($request->request->get('contactLastname')),
-                                'subject' => strip_tags($request->request->get('contactSubject')),
-                                'message' => strip_tags($request->request->get('contactMessage'))
-                            )
-                        ),
-                        'text/html'
-                    );
-                $mailer->send($message);
+            if(ReCpatchaV2::checkValue($request, $this->getParameter('captcha.secretkey'))) {
+                $emailService->sendContact($request, $this->getParameter('admin.email'));
                 $this->addFlash('success', 'Votre Message à bien été envoyé.<br><strong>Merci.</strong>');
                 return $this->redirectToRoute('home');
             }
@@ -72,17 +61,5 @@ class SnowController extends AbstractController
     public function politiquePage()
     {
         return $this->render('snow/politique.twig');
-    }
-    
-
-    private function checkReCaptcha($remoteIp, $captchaResponse)
-    {
-        $secret = $this->getParameter('captcha.secretkey');
-        $api_url = "https://www.google.com/recaptcha/api/siteverify?secret="
-            . $secret
-            . "&response=" . $captchaResponse
-            . "&remoteip=" . $remoteIp ;
-        $decode = json_decode(file_get_contents($api_url), true);
-        return $decode['success'];
     }
 }

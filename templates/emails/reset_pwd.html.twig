@@ -3,12 +3,12 @@
 	{{ user.username }}, <br>
 	Vous avez demander la reinitialisation de votre mot de passe,<br>
 	rendez vous sur le lien suivant pour saisir votre nouveau mot de passe :<br>
-	<a href="{{ url('security_token', {value: token.value}) }}">Lien de reinitialisation.</a><br><br>
+	<a href="{{ url('security_token_reset_pwd', {value: token.value}) }}">Lien de reinitialisation.</a><br><br>
 	<b>ATTENTION CE LIEN N'EST VALABLE QUE 2 HEURES !!!</b>
 <p>
 <p>
 	si le lien ne fonctionne par rendez vous manuellement a l'adresse suivante :<br>
-	{{ url('security_token', {value: token.value}) }}
+	{{ url('security_token_reset_pwd', {value: token.value}) }}
 </p>
 <p>
 	<b>MERCI !</b>

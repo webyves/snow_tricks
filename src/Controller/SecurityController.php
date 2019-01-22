@@ -13,13 +13,14 @@ use App\Form\UserType;
 use App\Form\UserResetPwdType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Service\SnowTricksEmails;
 
 class SecurityController extends AbstractController
 {
 	/**
 	* @Route("/inscription", name="security_registration")
 	*/
-	public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
+	public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, SnowTricksEmails $emailService)
 	{
 		$user = new Users();
         $form = $this->createForm(UserType::class, $user);
@@ -35,7 +36,7 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $this->sendTokenMail($user, $token, $mailer);
+            $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
             $this->addFlash('success', 'Votre incription a bien été prise en compte,<br>
                                         Vous allez recevoir un email pour valider votre inscription,<br>
                                         Pensez à verfiez vos courriers indésirable,<br>
@@ -51,7 +52,7 @@ class SecurityController extends AbstractController
     /**
     * @Route("/ask_reset_pwd", name="ask_reset_pwd")
     */
-    public function askResetPwd(Request $request, EntityManagerInterface $manager, UsersRepository $usersRepo, \Swift_Mailer $mailer)
+    public function askResetPwd(Request $request, EntityManagerInterface $manager, UsersRepository $usersRepo, SnowTricksEmails $emailService)
     {
         if ($request->request->count() > 0) {
             $user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))]);
@@ -60,8 +61,7 @@ class SecurityController extends AbstractController
             $manager->persist($token);
 
             $manager->flush();
-
-            $this->sendTokenMail($user, $token, $mailer);
+            $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
             $this->addFlash('success', 'Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>
                                         Vous allez recevoir un email avec un lien unique valable 2h,<br>
                                         Pensez à verfiez vos courriers indésirable,<br>
@@ -75,9 +75,9 @@ class SecurityController extends AbstractController
     }
 
     /**
-    * @Route("/token/{value}", name="security_token")
+    * @Route("/token_register/{value}", name="security_token_register")
     */
-    public function checkToken(UserTokens $token, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function checkRegister(UserTokens $token, Request $request, EntityManagerInterface $manager)
     {
         if ($token->getdateToken() > new \DateTime()) {
             if ($token->getType() === "registration") {
@@ -93,8 +93,21 @@ class SecurityController extends AbstractController
 
                 $this->addFlash('success', 'Votre incription a bien été validé,<br><strong>Merci</strong>.');
                 return $this->redirectToRoute('security_login');
+            }            
+            $this->addFlash('danger', 'Erreur sur le type de token invoqué,<br><strong>Merci de recommencé la procédure</strong>.');
+            return $this->redirectToRoute('home');
+        }
+        $this->addFlash('danger', 'Vous avez depassé le delai le delai de votre inscription qui etait de 14 jours,<br><strong>Merci de recommencé la procédure ou de contacter un administrateur</strong>.');
+        return $this->redirectToRoute('home');
+    }
 
-            } elseif ($token->getType() === "reset_pwd") {
+    /**
+    * @Route("/token_reset/{value}", name="security_token_reset_pwd")
+    */
+    public function checkResetPwd(UserTokens $token, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        if ($token->getdateToken() > new \DateTime()) {
+            if ($token->getType() === "reset_pwd") {
                 $user = $token->getUser();
                 $form = $this->createForm(UserResetPwdType::class, $user);
 
@@ -113,8 +126,10 @@ class SecurityController extends AbstractController
                 }
                 return $this->render('security/token_reset_pwd.twig', ['formResetPwd' => $form->createView()]);
             }            
+            $this->addFlash('danger', 'Erreur sur le type de token invoqué,<br><strong>Merci de recommencé la procédure</strong>.');
+            return $this->redirectToRoute('home');
         }
-        $this->addFlash('danger', 'Vous avez depassé le delai pour cette demande,<br><strong>Merci de recommencé la procédure</strong>.');
+        $this->addFlash('danger', 'Vous avez depassé le delai pour votre reinitilaisation de mot de passe qui etait de 2h,<br><strong>Merci de recommencé la procédure</strong>.');
         return $this->redirectToRoute('home');
     }
 
@@ -123,9 +138,7 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authUtils)
     {
-    // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
-
         return $this->render('security/connect.twig', array('error' => $error));
     }
 
@@ -135,30 +148,5 @@ class SecurityController extends AbstractController
     public function logout()
     {
 
-    }
-
-    private function sendTokenMail(Users $user, UserTokens $token, $mailer)
-    {
-        $verif = false;
-        if ($token->getType() === "registration") {
-            $subject = 'SnowTricks - Votre Inscription';
-            $view = 'emails/registration.html.twig';
-        } elseif ($token->getType() === "reset_pwd") {
-            $subject = 'SnowTricks - Reinitialisation de votre mot de passe';
-            $view = 'emails/reset_pwd.html.twig';
-        }
-        $message = (new \Swift_Message($subject))
-            ->setFrom('contact@ybernier.fr')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    $view,
-                    array('user' => $user, 'token' => $token)
-                ),
-                'text/html'
-            );
-        $mailer->send($message);
-        $verif = true;
-        return $verif;
     }
 }

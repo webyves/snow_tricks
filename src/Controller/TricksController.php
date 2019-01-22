@@ -16,6 +16,8 @@ use App\Form\TrickCommentType;
 use App\Repository\TricksRepository;
 use App\Repository\TrickCommentRepository;
 
+use App\Service\FormatItem;
+
 class TricksController extends AbstractController
 {
 
@@ -41,23 +43,8 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
-        $trickImageTabVarJS = "";
-        foreach ($trick->getTrickImages() as $item) {
-            if (!empty($trickImageTabVarJS)) {
-                $trickImageTabVarJS .= ', ';
-            }
-            $trickImageTabVarJS .= "'".$item->getLink()."'";
-        }
-        $trickImageTabVarJS = '[ ' . $trickImageTabVarJS . ' ]';
-
-        $trickVideoTabVarJS = "";
-        foreach ($trick->getTrickVideos() as $item) {
-            if (!empty($trickVideoTabVarJS)) {
-                $trickVideoTabVarJS .= ', ';
-            }
-            $trickVideoTabVarJS .= "'".$item->getLink()."'";
-        }
-        $trickVideoTabVarJS = '[ ' . $trickVideoTabVarJS . ' ]';
+        $trickImageTabVarJS = FormatItem::TabJSFormat($trick->getTrickImages());
+        $trickVideoTabVarJS = FormatItem::TabJSFormat($trick->getTrickVideos());
 
         return $this->render('snow/trick.twig', [
                 "trick" => $trick,

@@ -68,11 +68,11 @@ class TrickVideoController extends AbstractController
      */
     public function deleteTrickVideo(TrickVideo $trickVideo, EntityManagerInterface $manager)
     {
-        $trick = $trickVideo->getTrick();
+        $idTrick = $trickVideo->getTrick()->getId();
         $manager->remove($trickVideo);
         $manager->flush();
         $this->addFlash('success', 'Le lien video à bien été supprimé,<br><strong>Merci</strong>.');
-        return $this->redirectToRoute('edit_video_trick', ['id' => $trick->getId()]);
+        return $this->redirectToRoute('edit_video_trick', ['id' => $idTrick]);
     }
     
 
