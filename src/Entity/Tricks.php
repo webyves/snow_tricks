@@ -282,12 +282,13 @@ class Tricks
         return $this;
     }
 
-    private static function slugify($text)
+    private function slugify($text)
     {
       // replace non letter or digits by -
       $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
       // transliterate
+      setlocale(LC_CTYPE, 'fr_FR');
       $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
 
       // remove unwanted characters

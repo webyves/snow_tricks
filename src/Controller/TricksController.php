@@ -10,7 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Tricks;
 use App\Entity\TrickComment;
 
-use App\Form\TrickType;
+use App\Form\TrickAddType;
+use App\Form\TrickUpdateType;
 use App\Form\TrickCommentType;
 
 use App\Repository\TricksRepository;
@@ -64,7 +65,7 @@ class TricksController extends AbstractController
     public function addFormTricks(Request $request, EntityManagerInterface $manager)
     {
         $trick = new Tricks();
-        $formTrick = $this->createForm(TrickType::class, $trick);
+        $formTrick = $this->createForm(TrickAddType::class, $trick);
         $formTrick->handleRequest($request);
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $trick->setDateCreate(new \DateTime())
@@ -90,7 +91,7 @@ class TricksController extends AbstractController
      */
     public function editFormTricks(Tricks $trick, Request $request, EntityManagerInterface $manager)
     {
-        $formTrick = $this->createForm(TrickType::class, $trick);
+        $formTrick = $this->createForm(TrickUpdateType::class, $trick);
         $formTrick->handleRequest($request);
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $trick->setDateUpdate(new \DateTime())
