@@ -37,7 +37,7 @@ class SnowTricksEmails
     }
 
     // send email with a token (same function for reset password or registration)
-    static public function sendToken(Users $user, UserTokens $token, $fromEmail)
+    public function sendToken(Users $user, UserTokens $token, $fromEmail)
     {
         $subject = 'SnowTricks -';
         $view = '';
