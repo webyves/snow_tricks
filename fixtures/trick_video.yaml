@@ -1,0 +1,16 @@
+App\Entity\TrickVideo:
+    trick_video_1:
+        trick: '@tricks_1'
+        link: 'https://www.youtube.com/embed/Br6ZJM01I6s'
+
+    trick_video_2:
+        trick: '@tricks_2'
+        link: 'https://www.youtube.com/embed/XATkSnCFsRU'
+
+    trick_video_3:
+        trick: '@tricks_3'
+        link: 'https://www.youtube.com/embed/vquZvxGMJT0'
+
+    trick_video_4:
+        trick: '@tricks_5'
+        link: 'https://www.youtube.com/embed/2Ul5P-KucE8'
