@@ -17,6 +17,7 @@ reset:
     ask: Votre demande de reinitialisation de mot de passe a bien été prise en compte,<br>Vous allez recevoir un email avec un lien unique valable 2h,<br>Pensez à verfiez vos courriers indésirable,<br><strong>Merci</strong>.
     token: Votre Mot de passe à bien été reinitialisé.
   err:
+    ask: Aucun utilisateur ne correspond a cette adresse mail,<br>Veuillez resaisir l'email correctement,<br><strong>Merci</strong>.
     token:
       type: Erreur sur le type de token invoqué,<br><strong>Verifiez votre lien ou contacter un administrateur</strong>.
       timer: Vous avez depassé le delai pour votre reinitilaisation de mot de passe qui etait de 2h,<br><strong>Merci de recommencé la procédure</strong>.

@@ -52,19 +52,17 @@ class SecurityController extends AbstractController
     public function askResetPwd(Request $request, EntityManagerInterface $manager, UsersRepository $usersRepo, SnowTricksEmails $emailService)
     {
         if ($request->request->count() > 0) {
-            $user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))]);
+            if ($user = $usersRepo->findOneBy(['email' => strip_tags($request->request->get('email'))])) {
+                $token = new UserTokens($user, "reset_pwd");
+                $manager->persist($token);
 
-            $token = new UserTokens($user, "reset_pwd");
-            $manager->persist($token);
-
-            $manager->flush();
-            $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
-            $this->addFlash('success', 'reset.ok.ask');
-            return $this->redirectToRoute("home");
-
+                $manager->flush();
+                $emailService->sendToken($user, $token, $this->getParameter('admin.email'));
+                $this->addFlash('success', 'reset.ok.ask');
+                return $this->redirectToRoute("home");
+            }
+            $this->addFlash('danger', 'reset.err.ask');
         }
-
-
         return $this->render('security/ask_reset_pwd.twig');
     }
 
