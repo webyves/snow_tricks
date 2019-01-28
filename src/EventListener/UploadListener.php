@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\Entity\TrickImage;
-use App\Entity\Users;
 use App\Service\FileUploader;
 
 class UploadListener

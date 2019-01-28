@@ -1,0 +1,9 @@
+App\Entity\Users:
+    users_1:
+        email: super@admin.fr
+        password: '<genPassword("Crypted")>'
+        first_name: Super
+        last_name: Admin
+        date_inscription: '<dateTimeBetween("-30 days", "now")>'
+        avatar: ''
+        valid: 1

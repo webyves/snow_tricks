@@ -1,0 +1,28 @@
+App\Entity\TrickGroup:
+    trick_group_1:
+        name: Cork
+        description: Rotation horizontale plus ou moins désaxée.
+
+    trick_group_2:
+        name: Grab
+        description: Attraper sa planche d'une main.
+
+    trick_group_3:
+        name: Backflip
+        description: Rotation verticale arriere.
+
+    trick_group_4:
+        name: Frontflip
+        description: Rotation verticale avant.
+
+    trick_group_5:
+        name: Rotations
+        description: Rotation basique.
+
+    trick_group_6:
+        name: Slides
+        description: Consiste à glisser sur une barre de slide.
+        
+    trick_group_7:
+        name: One Foot Trick
+        description: Figures réalisée avec un pied décroché de la fixation.

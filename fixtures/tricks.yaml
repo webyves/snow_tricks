@@ -1,0 +1,100 @@
+App\Entity\Tricks:
+    tricks_1:
+        name: Backside Triple Cork 1440
+        content: En langage snowboard, un cork est une rotation horizontale plus ou moins désaxée, selon un mouvement d'épaules effectué juste au moment du saut. Le tout premier Triple Cork a été plaqué par Mark McMorris en 2011, lequel a récidivé lors des Winter X Games 2012... avant de se faire voler la vedette par Torstein Horgmo, lors de ce même championnat. Le Norvégien réalisa son propre Backside Triple Cork 1440 et obtint la note parfaite de 50/50.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_1'
+        slug: '<slugify($name)>'
+
+    tricks_2:
+        name: Double Mc Twist 1260
+        content: Le Mc Twist est un flip (rotation verticale) agrémenté d'une vrille. Un saut très périlleux réservé aux professionnels. Le champion précoce Shaun White s'est illustré par un Double Mc Twist 1260 lors de sa session de Half-Pipe aux Jeux Olympiques de Vancouver en 2010. Nul doute que c'est cette figure qui lui a valu de remporter la médaille d'or.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_4'
+        slug: '<slugify($name)>'
+
+    tricks_3:
+        name: Double Backside Rodeo 1080
+        content: À l'instar du cork, le rodeo est une rotation désaxée, qui se reconnaît par son aspect vrillé. Un des plus beaux de l'histoire est sans aucun doute le Double Backside Rodeo 1080 effectué pour la première fois en compétition par le jeune prodige Travis Rice, lors du Icer Air 2007. La pirouette est tellement culte qu'elle a fini dans un jeu vidéo où Travis Rice est l'un des personnages.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_1'
+        slug: '<slugify($name)>'
+
+    tricks_4:
+        name: Double Backflip One Foot
+        content: Comme on peut le deviner, les "one foot" sont des figures réalisées avec un pied décroché de la fixation. Pendant le saut, le snowboarder doit tendre la jambe du côté dudit pied. L'esthète Scotty Vine – une sorte de Danny MacAskill du snowboard – en a réalisé un bel exemple avec son Double Backflip One Foot.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_3'
+        slug: '<slugify($name)>'
+
+    tricks_5:
+        name: Method Air
+        content: Cette figure – qui consiste à attraper sa planche d'une main et le tourner perpendiculairement au sol – est un classique "old school". Il n'empêche qu'il est indémodable, avec de vrais ambassadeurs comme Jamie Lynn ou la star Terje Haakonsen. En 2007, ce dernier a même battu le record du monde du "air" le plus haut en s'élevant à 9,8 mètres au-dessus du kick (sommet d'un mur d'une rampe ou autre structure de saut).
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_2'
+        slug: '<slugify($name)>'
+
+    tricks_6:
+        name: 180°
+        content: saut avec une rotation d'un demi-tour (souvent abrégé par le sens de rotation. Par exemple on dit qu'on réalise un back(side) pour dire un 180° backside)
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_5'
+        slug: '<slugify($name)>'
+
+    tricks_7:
+        name: 360°
+        content:  un saut avec une rotation d'un tour complet (souvent abrégé 3-6 ou 3).
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_5'
+        slug: '<slugify($name)>'
+
+    tricks_8:
+        name: Indy
+        content:  Ce grab consiste à attraper (catcher) sa planche avec sa main arrière entre les deux pieds. Le tweak de ce trick est en général effectué en tendant la jambe avant.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_2'
+        slug: '<slugify($name)>'
+
+    tricks_9:
+        name: Japan
+        content: saisie de l'avant de la planche, avec la main avant, du côté de la carre frontside.
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_2'
+        slug: '<slugify($name)>'
+
+    tricks_10:
+        name: Mute
+        content: saisie de la carre frontside de la planche entre les deux pieds avec la main avant ;
+        dateCreate: '<dateTimeBetween("-30 days", "now")>'
+        dateUpdate: $dateCreate
+        userCreate: '@users_1'
+        userUpdate: $userCreate
+        trickGroup: '@trick_group_2'
+        slug: '<slugify($name)>'
