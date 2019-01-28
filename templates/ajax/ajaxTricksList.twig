@@ -1,8 +1,8 @@
 <div class="tricks row">
     {% for trick in tricks %}
         {% include 'snow/confirmDeleteTrickModal.twig' %}
-        <div class="col-lg-3 col-sm-6 col">
-            <div class="card">
+        <div class="col-lg-3 col-sm-6 col-12">
+            <div class="card snowCardStyle">
                 <div class="homeImgCard">
                     {% if trick.trickImages[0] is defined %}
                     <img class="card-img-top" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
