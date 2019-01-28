@@ -1,0 +1,20 @@
+App\Entity\TrickImage:
+    trick_image_1:
+        trick: '@tricks_6'
+        link: '<genUpload("_fixture_180.jpg")>'
+
+    trick_image_2:
+        trick: '@tricks_7'
+        link: '<genUpload("_fixture_360.jpg")>'
+
+    trick_image_3:
+        trick: '@tricks_8'
+        link: '<genUpload("_fixture_indy.jpg")>'
+
+    trick_image_4:
+        trick: '@tricks_9'
+        link: '<genUpload("_fixture_japan.jpg")>'
+
+    trick_image_5:
+        trick: '@tricks_10'
+        link: '<genUpload("_fixture_mute.jpg")>'
