@@ -18,8 +18,8 @@
 <div class="tricks row">
     {% for trick in tricks %}
         {% include 'snow/confirmDeleteTrickModal.twig' %}
-        <div class="col-lg-3 col-sm-6 col">
-            <div class="card">
+        <div class="col-lg-3 col-sm-6 col-12">
+            <div class="card snowCardStyle">
                 <div class="homeImgCard">
                     {% if trick.trickImages[0] is defined %}
                     <img class="card-img-top" src="{{ asset('uploads/trick_images/' ~ trick.trickImages[0].link) }}" alt="Image Trick {{ trick.id }}">
@@ -27,9 +27,9 @@
                     <img class="card-img-top" src="/img/default.jpg" alt="Snow Trick Image par default">
                     {% endif %}
                     <div class="homeInfosBadges">
-                        <span class="badge badge-pill badge-secondary"><em class="far fa-comments"></em> {{ trick.trickComments | length }}</span>
-                        <span class="badge badge-pill badge-info"><em class="far fa-image"></em> {{ trick.trickImages | length }}</span>
-                        <span class="badge badge-pill badge-primary"><em class="fab fa-youtube"></em> {{ trick.trickVideos | length }}</span>
+                        <span class="badge badge-pill badge-secondary" title="{{ trick.trickComments | length }} Commentaires"><em class="far fa-comments"></em> {{ trick.trickComments | length }}</span>
+                        <span class="badge badge-pill badge-info" title="{{ trick.trickImages | length }} Photos"><em class="far fa-image"></em> {{ trick.trickImages | length }}</span>
+                        <span class="badge badge-pill badge-primary" title="{{ trick.trickVideos | length }} Videos"><em class="fab fa-youtube"></em> {{ trick.trickVideos | length }}</span>
                     </div>
                 </div>
                 <div class="card-body">

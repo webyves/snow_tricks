@@ -16,7 +16,7 @@
 {% endif %}
 <div class="row">
     {% for trickVideo in trick.trickVideos | slice(0, maxVideos) %}
-    <div class="col-4">
+    <div class="col-sm-4 col">
         <embed src="{{ trickVideo.link }}" id="divVideo_{{ loop.index }}"></embed>
     </div>
     {% endfor %}
