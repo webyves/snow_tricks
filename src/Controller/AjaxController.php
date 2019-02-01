@@ -16,7 +16,7 @@ class AjaxController extends AbstractController
      * @Route("/ajax_tricks_list/{pageNb}", name="ajax_tricks_list", requirements={"pageNb"="\d+"}, 
      * condition="context.getMethod() in ['POST', 'GET'] and request.headers.get('X-Requested-With') matches '/XMLHttpRequest/i'")
      */
-    public function tricksPages($pageNb, TricksRepository $trickRepo, Request $req)
+    public function tricksPages($pageNb, TricksRepository $trickRepo)
     {
         $offset = ($pageNb * $this->getParameter('perpage.tricks'));
         $tricks = $trickRepo->findBy([], ["dateCreate"=>"DESC"], $this->getParameter('perpage.tricks'), $offset);

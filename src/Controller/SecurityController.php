@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
     /**
     * @Route("/token_register/{value}", name="security_token_register")
     */
-    public function checkRegister(UserTokens $token, Request $request, EntityManagerInterface $manager)
+    public function checkRegister(UserTokens $token, EntityManagerInterface $manager)
     {
         if ($token->getdateToken() > new \DateTime()) {
             if ($token->getType() === "registration") {

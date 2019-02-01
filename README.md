@@ -36,8 +36,23 @@ Projet 6 du parcours DA PHP/Symfony de OpenClassrooms
 
 # Installation Notes (PAR SSH)
 1) Cloner le repository sur votre serveur
-2) verifiez et mettez a jour les informations dans le fichier .env
-	- voir etape 4 de l'installation sans acces SSH pour plus d'infos
+2) Mettre a jour le fichier .env (situé a la racine) sur les lignes suivantes :
+	- DB_HOST={VOTRE_SERVEUR_DATABASE}
+	- DB_NAME={NOM_DE_VOTRE_DATABASE}
+	- DB_USER={VOTRE_NOM_UTILISATEUR_DATABASE}
+	- DB_PASSWORD={VOTRE_MOT_PASSE_DATABASE}
+
+	- EMAIL_URL={VOTRE_SERVEUR_EMAIL}
+	- EMAIL_PORT={VOTRE_PORT_DE_SERVEUR_EMAIL}  465 pour le SSL
+	- EMAIL_ENCRYPTION={VOTRE_TYPE_DE_SECURITE_EMAIL}  SSL est le plus repandu
+	- EMAIL_MODE={VOTRE_METHODE_CONNEXION_EMAIL}  login est le plus repandu
+	- EMAIL_USERNAME={VOTRE_NOM_UTILISATEUR_EMAIL}
+	- EMAIL_PASSWORD={VOTRE_MOT_PASSE_EMAIL}
+
+	- ADMIN_CONTACT_EMAIL={EMAIL_DE_VOTRE_ADMINISTRATEUR}
+
+	- CAPTCHA_SITE_KEY={VOTRE_CLEF_SITE_RECAPTCHA}
+	- CAPTCHA_SECRET_KEY={VOTRE_CLEF_SECRETE_RECAPTCHA}
 3) Utiliser composer pour installer et mettre a jour les composant avec la commande 
 	- composer install
 4) Créer la base de donnée et mettez la a jour avec les commandes
@@ -45,9 +60,6 @@ Projet 6 du parcours DA PHP/Symfony de OpenClassrooms
 	- php bin/console doctrine:migrations:migrate
 5) envoyer les fixtures
 	- php bin/console hautelook:fixture:load
-6) lancer votre serveur :
-	- en local executez la commande : php bin/console server:run
-	- en ligne : voir etape 3 installation sans SSH puis rendez vous sur votre http://addresse.de.monsite.fr
 
 
 # Patch Notes
