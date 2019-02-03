@@ -27,15 +27,15 @@ $(document).ready(function() {
             var prevloadimage = $("#btnImgPrev").data("loadimage");
             var nextloadimage = $("#btnImgNext").data("loadimage");
             if($(this).data("dir") === "next") {
-                $("#imgClickable_1").attr('src', $("#imgClickable_2").attr('src'));
-                $("#imgClickable_2").attr('src', $("#imgClickable_3").attr('src'));
-                $("#imgClickable_3").attr('src', "/uploads/trick_images/" + trickImagesTab[$(this).data("loadimage")]);
+                $("#imgClickable_1").attr("src", $("#imgClickable_2").attr("src"));
+                $("#imgClickable_2").attr("src", $("#imgClickable_3").attr("src"));
+                $("#imgClickable_3").attr("src", "/uploads/trick_images/" + trickImagesTab[$(this).data("loadimage")]);
                 prevloadimage = prevloadimage + 1;
                 nextloadimage = nextloadimage + 1;
             } else if ($(this).data("dir") === "prev"){
-                $("#imgClickable_3").attr('src', $("#imgClickable_2").attr('src'));
-                $("#imgClickable_2").attr('src', $("#imgClickable_1").attr('src'));
-                $("#imgClickable_1").attr('src', "/uploads/trick_images/" + trickImagesTab[$(this).data("loadimage")]);
+                $("#imgClickable_3").attr("src", $("#imgClickable_2").attr("src"));
+                $("#imgClickable_2").attr("src", $("#imgClickable_1").attr("src"));
+                $("#imgClickable_1").attr("src", "/uploads/trick_images/" + trickImagesTab[$(this).data("loadimage")]);
                 prevloadimage = prevloadimage - 1;
                 nextloadimage = nextloadimage - 1;
             }
@@ -52,15 +52,15 @@ $(document).ready(function() {
             var prevloadvideo = $("#btnVidPrev").data("loadvideo");
             var nextloadvideo = $("#btnVidNext").data("loadvideo");
             if($(this).data("dir") === "next") {
-                $("#divVideo_1").attr('src', $("#divVideo_2").attr('src'));
-                $("#divVideo_2").attr('src', $("#divVideo_3").attr('src'));
-                $("#divVideo_3").attr('src', trickVideosTab[$(this).data("loadvideo")]);
+                $("#divVideo_1").attr("src", $("#divVideo_2").attr("src"));
+                $("#divVideo_2").attr("src", $("#divVideo_3").attr("src"));
+                $("#divVideo_3").attr("src", trickVideosTab[$(this).data("loadvideo")]);
                 prevloadvideo = prevloadvideo + 1;
                 nextloadvideo = nextloadvideo + 1;
             } else if ($(this).data("dir") === "prev"){
-                $("#divVideo_3").attr('src', $("#divVideo_2").attr('src'));
-                $("#divVideo_2").attr('src', $("#divVideo_1").attr('src'));
-                $("#divVideo_1").attr('src', trickVideosTab[$(this).data("loadvideo")]);
+                $("#divVideo_3").attr("src", $("#divVideo_2").attr("src"));
+                $("#divVideo_2").attr("src", $("#divVideo_1").attr("src"));
+                $("#divVideo_1").attr("src", trickVideosTab[$(this).data("loadvideo")]);
                 prevloadvideo = prevloadvideo - 1;
                 nextloadvideo = nextloadvideo - 1;
             }
@@ -75,8 +75,8 @@ $(document).ready(function() {
         Function View Geater Image
     ****************************************/
     $(document).on("click", ".imgClickable", function(){
-        var source = $(this).attr('src');
-        $("#imgFull").attr('src', source);
+        var source = $(this).attr("src");
+        $("#imgFull").attr("src", source);
     });
 
 });
