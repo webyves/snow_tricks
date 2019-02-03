@@ -39,8 +39,8 @@ $(document).ready(function() {
                 prevloadimage = prevloadimage - 1;
                 nextloadimage = nextloadimage - 1;
             }
-            $("#btnImgPrev").data("loadimage", prevloadimage)
-            $("#btnImgNext").data("loadimage", nextloadimage)
+            $("#btnImgPrev").data("loadimage", prevloadimage);
+            $("#btnImgNext").data("loadimage", nextloadimage);
         }
     });
 
@@ -64,8 +64,8 @@ $(document).ready(function() {
                 prevloadvideo = prevloadvideo - 1;
                 nextloadvideo = nextloadvideo - 1;
             }
-            $("#btnVidPrev").data("loadvideo", prevloadvideo)
-            $("#btnVidNext").data("loadvideo", nextloadvideo)
+            $("#btnVidPrev").data("loadvideo", prevloadvideo);
+            $("#btnVidNext").data("loadvideo", nextloadvideo);
         }
     });
 
